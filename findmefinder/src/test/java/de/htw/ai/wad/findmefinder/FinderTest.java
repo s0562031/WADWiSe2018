@@ -1,27 +1,28 @@
 package de.htw.ai.wad.findmefinder;
 
 import static org.junit.Assert.*;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-public class FinderTest extends TestCase {
+import org.junit.Test;
+
+public class FinderTest {
 	
-	/**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public FinderTest( String testName ){
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
+	@Test
+	public void testCreateObjectWithApp() throws ReflectiveOperationException {
+		assertTrue(Finder.createObject("App") instanceof App);
+	}
+	
+	@Test
+	public void testCreateObjectWithNoExistingClass() throws ReflectiveOperationException {
+		assertTrue(Finder.createObject("irgendwas") instanceof App);
+	}
+	
+	@Test
+	public void testCreateObjectWithEmptyArgument() throws ReflectiveOperationException {
+		assertTrue(Finder.createObject("") instanceof App);
+	}
+	
+	@Test
+	public void testCreateObjectWithNull() throws ReflectiveOperationException {
+		assertTrue(Finder.createObject(null) instanceof App);
+	}
 }
