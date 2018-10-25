@@ -117,12 +117,19 @@ public class Finder {
 		    System.out.println("keine gueltige Eingabe");
 		}
 		else className = "de.htw.ai.wad.findmefinder." + className; //per Hand groupID setzen..?
-				
-		System.out.println("in create: " + className);
+		
+		if(!(className == null)) { 
+			System.out.println("in create: " + className);
+		}
 		Class<?> c = null;
 		
         //throws ClassNotFoundException
-        c = Class.forName(className);
+		try {
+			c = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.out.println();
+		}
 		
         // class.newInstance() depricated
         return c.getDeclaredConstructor().newInstance();
