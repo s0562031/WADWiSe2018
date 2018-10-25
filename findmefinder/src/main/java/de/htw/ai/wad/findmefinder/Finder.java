@@ -2,6 +2,7 @@ package de.htw.ai.wad.findmefinder;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
@@ -27,15 +28,16 @@ public class Finder {
 		if(args != null && args.length != 0) {
 			classtoload = args[0];
 		} else {
-			System.out.println("Klasse Finder muss mit Argumenten aufgerufen werden");
-			System.exit(1);
+			//throw new NullPointerException("Klasse Finder muss mit Argumenten aufgerufen werden");
+			System.out.println("Klasse Finder muss mit Argumenten aufgerufen werden, default Wert genutzt");
+			//System.exit(1);
 		}
 		
 	
 		try {
 			classobj = Finder.createObject(classtoload);
 		} catch (ReflectiveOperationException e) {
-			e.printStackTrace();
+			// e.printStackTrace(); nicht moeglich da default Wert genutzt
 		} 
 				
 		
@@ -75,10 +77,10 @@ public class Finder {
 	
 		if(className == null || className.trim().isEmpty()) {
 		    className = "de.htw.ai.wad.findmefinder.App"; //setze einen default-Wert
+		    System.out.println("createObject mit Default Wert aufgerufen");
 		}
 		else className = "de.htw.ai.wad.findmefinder." + className; //per Hand groupID setzen..?
-		
-		
+				
 		System.out.println("in create: " + className);
 		Class<?> c = null;
 		
@@ -101,5 +103,32 @@ public class Finder {
         return c.getDeclaredConstructor().newInstance();
      
 	}
+	
+	/**
+     * erzeugt Object der im Argument definierten Klasse
+     * @author E.Schueler
+     * @param className
+     * @return
+     * @throws ReflectiveOperationException
+     */
+	public static Object createObjectWODefault(String className) throws ReflectiveOperationException, ClassNotFoundException {
+	
+		if(className == null || className.trim().isEmpty()) {
+		    System.out.println("keine gueltige Eingabe");
+		}
+		else className = "de.htw.ai.wad.findmefinder." + className; //per Hand groupID setzen..?
+				
+		System.out.println("in create: " + className);
+		Class<?> c = null;
+		
+        //throws ClassNotFoundException
+        c = Class.forName(className);
+		
+        // class.newInstance() depricated
+        return c.getDeclaredConstructor().newInstance();
+     
+	}
+
 
 }
+
