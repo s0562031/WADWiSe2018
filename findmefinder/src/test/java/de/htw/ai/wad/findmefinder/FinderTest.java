@@ -25,4 +25,14 @@ public class FinderTest {
 	public void testCreateObjectWithNull() throws ReflectiveOperationException {
 		assertTrue(Finder.createObject(null) instanceof App);
 	}
+	
+	@Test(expected=ClassNotFoundException.class)
+	public void testcreateObjectWODefaultWithNull() throws ReflectiveOperationException {
+		Finder.createObjectWODefault(null);
+	}
+	
+	@Test(expected=ClassNotFoundException.class)
+	public void testcreateObjectWODefaultWithEmptyString() throws ReflectiveOperationException {
+		Finder.createObjectWODefault("");
+	}
 }
