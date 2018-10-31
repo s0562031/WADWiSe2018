@@ -123,14 +123,9 @@ public class Finder {
 		}
 		Class<?> c = null;
 		
-        //throws ClassNotFoundException
-		try {
-			c = Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.out.println();
-		}
-		
+        // NullPointerException oder ClassNotFoundException
+		c = Class.forName(className);
+
         // class.newInstance() depricated
         return c.getDeclaredConstructor().newInstance();
      
@@ -138,4 +133,3 @@ public class Finder {
 
 
 }
-
