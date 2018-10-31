@@ -36,7 +36,7 @@ public class FinderTest {
 		Finder.createObjectWODefault("irgendwas");
 	}
 	
-	@Test(expected=ClassNotFoundException.class)
+	@Test(expected=NullPointerException.class)
 	public void testcreateObjectWODefaultWithNull() throws ReflectiveOperationException {
 		Finder.createObjectWODefault(null);
 	}
