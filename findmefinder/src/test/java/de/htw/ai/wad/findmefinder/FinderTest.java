@@ -26,13 +26,23 @@ public class FinderTest {
 		assertTrue(Finder.createObject(null) instanceof App);
 	}
 	
+	@Test
+	public void testcreateObjectWODefaultWithApp() throws ReflectiveOperationException {
+		assertTrue(Finder.createObject("App") instanceof App);
+	}
+	
+	@Test(expected=ClassNotFoundException.class)
+	public void testcreateObjectWODefaultWithNoExistingClass() throws ReflectiveOperationException {
+		Finder.createObjectWODefault("irgendwas");
+	}
+	
 	@Test(expected=ClassNotFoundException.class)
 	public void testcreateObjectWODefaultWithNull() throws ReflectiveOperationException {
 		Finder.createObjectWODefault(null);
 	}
 	
 	@Test(expected=ClassNotFoundException.class)
-	public void testcreateObjectWODefaultWithEmptyString() throws ReflectiveOperationException {
+	public void testcreateObjectWODefaultWithEmptyArguments() throws ReflectiveOperationException {
 		Finder.createObjectWODefault("");
 	}
 }
