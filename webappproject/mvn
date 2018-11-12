@@ -1,0 +1,39 @@
+    *****************************************************************
+    * WARNING: The 'project' command is now deprecated, this legacy *
+    * link to the new executable, turnincfg, may disappear in any   *
+    * future release.                                               *
+    *****************************************************************
+Usage: project [options] [project name]
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+  -d, --disable         Disable submissions for the current project.
+  -D, --perm-disable    Permanently disable submissions for the current
+                        project.
+  -e, --enable          Enable submissions for the current project and make it
+                        the default project.
+  -l                    Enable submissions for the current project but don't
+                        make it default.
+  -r, --remove          Remove the current project and all associated files.
+  -i, --init            Initialize this project.
+  -p, --compress        Compress this project.
+  -x, --extract         Extract this project.
+  -v, --verify          Verify signatures on submitted projects.
+  --list                Lists projects for the course. Also displays wether or
+                        not the project is enabled.
+  -c COURSE, --course=COURSE
+                        Course name
+  -C CONFIG, --config=CONFIG
+                        Use an alternate config file.
+  -w, --legal           Print warranty and license information.
+
+  Administrative options:
+    These options can add or remove courses, etc.
+
+    --create-course=CREATE_COURSE
+                        Creates a course.
+    --delete-course=DELETE_COURSE
+                        Deletes a course.
+    --archive-course=ARCHIVE_COURSE
+                        Archive a course.

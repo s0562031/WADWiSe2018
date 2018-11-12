@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="utf-8">
+    <title>Webentwicklung</title>
+	<link rel="stylesheet"  type="text/css" href="css/Stylesheet.css">
+
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="content-language" content="de" />
+<meta name="author" content="Thomas Heiles" />
+
+<link rel="stylesheet" type="text/css" href="css/map.css"></link>
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="css/ie_map.css"></link>
+<![endif]-->
+<script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+<script type="text/javascript" src="js/tom.js"></script>
+ 
+<script type="text/javascript">
+//<![CDATA[
+
+var map;
+var layer_mapnik;
+var layer_tah;
+var layer_markers;
+
+var loncor = 6.641389; 
+var latcor = 49.756667;
+
+var name = "Dustin";
+
+function drawmap() {
+    // Popup und Popuptext mit evtl. Grafik
+    var popuptext="<font color=\"black\"><b>Dustin<br>Stra&szlig;e 123<br>54290 Trier</b><p><img src=\"test.jpg\" width=\"180\" height=\"113\"></p></font>";
+
+    OpenLayers.Lang.setCode('de');
+    
+    // Position und Zoomstufe der Karte
+    var lon = loncor;
+    var lat = latcor;
+    var zoom = 7;
+
+    map = new OpenLayers.Map('map', {
+        projection: new OpenLayers.Projection("EPSG:900913"),
+        displayProjection: new OpenLayers.Projection("EPSG:4326"),
+        controls: [
+            new OpenLayers.Control.Navigation(),
+            new OpenLayers.Control.LayerSwitcher(),
+            new OpenLayers.Control.PanZoomBar()],
+        maxExtent:
+            new OpenLayers.Bounds(-20037508.34,-20037508.34,
+                                    20037508.34, 20037508.34),
+        numZoomLevels: 18,
+        maxResolution: 156543,
+        units: 'meters'
+    });
+
+    layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
+    layer_markers = new OpenLayers.Layer.Markers("Address", { projection: new OpenLayers.Projection("EPSG:4326"), 
+    	                                          visibility: true, displayInLayerSwitcher: false });
+
+    map.addLayers([layer_mapnik, layer_markers]);
+    jumpTo(lon, lat, zoom);
+ 
+    // Position des Markers
+    addMarker(layer_markers, 6.641389, 49.756667, popuptext);
+
+}
+
+//]]>
+    </script>
+
+
+
+</head>
+<body>
+
+<div>
+	<form>
+		name <br>
+		<input type="text" name="username"> 
+		<br> password <br>
+		<input type="text" name="password">
+		<br>
+		<br> <button type="button">log in </button> 
+	
+	</form>
+</div>
+    
+    
+<div class="wrapper">
+  <div class="a">
+  	 <button class="button" type="button">add</button> 
+  	 <button class="button" type="button">show</button> 
+  </div>
+  
+  
+  
+  
+  <div class="b">
+  
+  	  <body onload="drawmap();">
+	
+
+	  <div id="header">
+	  
+	   <div id="content">Karte (Testversion)</div>
+		   <div id="osm">© <a href="http://www.openstreetmap.org">OpenStreetMap</a>
+		     und <a href="http://www.openstreetmap.org/copyright">Mitwirkende</a>,
+		     <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.de">CC-BY-SA</a>
+		   </div>
+	   </div>
+
+	  
+	  <div id="map"></div>
+		<p> test<p>
+  </div>
+  
+  
+  
+  <div class="c">
+  	<table>
+	  <tr>
+	    <th>Personen</th>
+	  </tr>
+	  <tr>
+	    <td>Bob</td>
+	  </tr>
+	   <tr>
+	    <td>Lisa</td>
+	  </tr>
+	</table> 
+  
+  </div>
+</div>
+
+<div>
+	<form>
+		first name <br>
+		<input type="text" name="firstname"> 
+		
+		<br> last name <br>
+		<input type="text" name="lastname"> 
+		
+		<br> street <br>
+		<input type="text" name="street">
+		
+		<br> postcode <br>
+		<input type="text" name="postcode">
+		
+		<br> city <br>
+		<input type="text" name="city">
+		
+		<br> country <br>
+		<input type="text" name="country">
+		
+		<br>
+		<input type="checkbox" name="checkboxprivate" value="private"> private <br>
+		
+		<br>
+		<button type="submit" name="addbutton"> add </button> 
+		<br>
+		
+	
+	</form>
+</div>
+
+
+
+</body>
+</html>

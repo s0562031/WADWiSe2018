@@ -1,0 +1,71 @@
+/* grid layout, 3 columns */
+.wrapper {
+  display: grid; 
+  grid-template-columns: 2fr 1fr; 
+  /*grid-template-row: 1fr 2fr;*/
+  /*grid-auto-rows:minmax(400px, auto);*/
+ }
+ 
+/* header */
+.a {
+  background-color: grey;
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
+  min-height: 40px;
+}
+
+/* content */
+.b {
+	background-color: black;
+	grid-auto-rows:400px;
+	min-height: 400px;
+	grid-column: 1 / span 1;
+}
+
+/* sidebar */
+.c {
+  background-color: darkgrey;
+  grid-auto-rows:minmax(200px, auto);
+  grid-column: 2 / span 1;
+  min-height: 400px;
+}
+
+.button {
+	color: black;
+	background: transparent; 
+	border: 2px solid #0099CC;
+	display: inline-block;
+	text-transform: uppercase;
+	text-alignment: center;
+	transition-duration: 0.4s;
+	cursor: pointer;
+    margin: auto;
+    width: 50%;
+    height: 30px;
+    width: 95px;
+}
+
+.button:hover {
+      background-color: #008CBA;
+      color: white;
+ }
+
+p {
+  margin: 0;
+  color: black;
+}
+
+body {
+ font-family: "Open Sans", normal;
+ background-color: #f7f7ee;
+ color: black;
+}
+
+form {
+ font-family: "Open Sans", Sans, light;
+ line-height: 2.0;
+ color: black;
+}
+
+
+
