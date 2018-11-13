@@ -78,23 +78,11 @@ function drawmap() {
 </head>
 <body>
 
-<div>
-	<form>
-		name <br>
-		<input type="text" name="username"> 
-		<br> password <br>
-		<input type="text" name="password">
-		<br>
-		<br> <button type="button">log in </button> 
-	
-	</form>
-</div>
-    
     
 <div class="wrapper">
   <div class="a">
-  	 <button class="button" type="button">add</button> 
-  	 <button class="button" type="button">show</button> 
+  	 <button class="buttonheader" type="button">add</button> 
+  	 <button class="buttonheader" type="button">show</button> 
   </div>
   
   
@@ -104,7 +92,7 @@ function drawmap() {
   
   	  <body onload="drawmap();">
 	
-
+	  <!--
 	  <div id="header">
 	  
 	   <div id="content">Karte (Testversion)</div>
@@ -113,28 +101,22 @@ function drawmap() {
 		     <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.de">CC-BY-SA</a>
 		   </div>
 	   </div>
+	   -->
 
 	  
 	  <div id="map"></div>
-		<p> test<p>
-  </div>
-  
-  
-  
-  <div class="c">
-  	<table>
-	  <tr>
-	    <th>Personen</th>
-	  </tr>
-	  <tr>
-	    <td>Bob</td>
-	  </tr>
-	   <tr>
-	    <td>Lisa</td>
-	  </tr>
-	</table> 
-  
-  </div>
+	  
+	  
+	  <div>
+	<form>
+		name <br>
+		<input type="text" name="username" required> 
+		<br> password <br>
+		<input type="text" name="password" required>
+		<br>
+		<br> <button type="button">log in </button> 
+	
+	</form>
 </div>
 
 <div>
@@ -167,8 +149,26 @@ function drawmap() {
 	
 	</form>
 </div>
-
-
+		
+  </div>
+  
+  
+  
+  <div class="c">
+  	<table>
+	  <tr>
+	    <th>Personen</th>
+	  </tr>
+	  <tr>
+	    <td>Bob</td>
+	  </tr>
+	   <tr>
+	    <td>Lisa</td>
+	  </tr>
+	</table> 
+  
+  </div>
+</div>
 
 </body>
 </html>

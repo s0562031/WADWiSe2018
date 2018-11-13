@@ -1,7 +1,7 @@
 html,body {
   height: 100%;
   width: 100%;
-  margin: 1%; padding: 0;
+  margin: 0%; padding: 0;
   font-family: Verdana, Arial;
   font-size: 1em;
   //overflow: hidden;
@@ -20,19 +20,20 @@ a:hover {
 
 #header {
   font-family: Verdana, Arial;
+  margin: auto;
   font-size: 1em;
   overflow: hidden;
   color: #ffffff;
 }
 
 #map {
-  height: 50%;
-  width: 50%;
+  height: 400px;
+  width: 100%;
   padding: 1em; margin: 1em;
-  vertical-align:middle;
 }
 
 #content {
+  margin: auto;
   font-size: 1em;
 }
 

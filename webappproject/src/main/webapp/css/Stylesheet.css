@@ -1,36 +1,37 @@
 /* grid layout, 3 columns */
+
 .wrapper {
   display: grid; 
-  grid-template-columns: 2fr 1fr; 
+  grid-template-columns: 1fr 4fr; 
   /*grid-template-row: 1fr 2fr;*/
   /*grid-auto-rows:minmax(400px, auto);*/
  }
  
 /* header */
 .a {
-  background-color: grey;
-  grid-column: 1 / span 2;
+  background-color: #fff;
+  grid-column: 2 / span 4;
   grid-row: 1 / span 1;
   min-height: 40px;
 }
 
 /* content */
 .b {
-	background-color: black;
+	background-color: #f0f0f0;
 	grid-auto-rows:400px;
+	overflow-y: scroll;
 	min-height: 400px;
-	grid-column: 1 / span 1;
+	grid-column: 2 / span 4;
 }
 
 /* sidebar */
 .c {
-  background-color: darkgrey;
-  grid-auto-rows:minmax(200px, auto);
-  grid-column: 2 / span 1;
-  min-height: 400px;
+  background-color: #2e3e4e;
+  grid-column: 1 / span 1;
+  grid-row: 1 /span 2;
 }
 
-.button {
+.buttonheader {
 	color: black;
 	background: transparent; 
 	border: 2px solid #0099CC;
@@ -39,13 +40,13 @@
 	text-alignment: center;
 	transition-duration: 0.4s;
 	cursor: pointer;
-    margin: auto;
+	margin: 0.7%;
     width: 50%;
     height: 30px;
     width: 95px;
 }
 
-.button:hover {
+.buttonheader:hover {
       background-color: #008CBA;
       color: white;
  }
@@ -57,8 +58,10 @@ p {
 
 body {
  font-family: "Open Sans", normal;
- background-color: #f7f7ee;
+ font-size: 12em;
+ background-color: #f0f0f0;
  color: black;
+ overflow: hidden;
 }
 
 form {
