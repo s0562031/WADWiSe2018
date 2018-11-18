@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="utf-8">
-    <title>Webentwicklung</title>
-	<link rel="stylesheet"  type="text/css" href="css/Stylesheet.css">
-
+<head>
+<meta charset="utf-8">
+<title>Webentwicklung</title>
 
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta http-equiv="content-script-type" content="text/javascript" />
 <meta http-equiv="content-style-type" content="text/css" />
 <meta http-equiv="content-language" content="de" />
 <meta name="author" content="Thomas Heiles" />
+<link rel="stylesheet"  type="text/css" href="css/Stylesheet.css">
 
 <link rel="stylesheet" type="text/css" href="css/map.css"></link>
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="css/ie_map.css"></link>
 <![endif]-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
 <script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
 <script type="text/javascript" src="js/tom.js"></script>
- 
+
 <script type="text/javascript">
 //<![CDATA[
 
@@ -71,104 +76,98 @@ function drawmap() {
 }
 
 //]]>
-    </script>
-
+</script>
 
 
 </head>
+
 <body>
 
-    
-<div class="wrapper">
-  <div class="a">
-  	 <button class="buttonheader" type="button">add</button> 
-  	 <button class="buttonheader" type="button">show</button> 
-  </div>
-  
-  
-  
-  
-  <div class="b">
-  
-  	  <body onload="drawmap();">
-	
-	  <!--
-	  <div id="header">
-	  
-	   <div id="content">Karte (Testversion)</div>
-		   <div id="osm">© <a href="http://www.openstreetmap.org">OpenStreetMap</a>
-		     und <a href="http://www.openstreetmap.org/copyright">Mitwirkende</a>,
-		     <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.de">CC-BY-SA</a>
-		   </div>
-	   </div>
-	   -->
-
-	  
-	  <div id="map"></div>
-	  
-	  
-	  <div>
-	<form>
-		name <br>
-		<input type="text" name="username" required> 
-		<br> password <br>
-		<input type="text" name="password" required>
-		<br>
-		<br> <button type="button">log in </button> 
-	
+<div id="loginBox">
+	<div class="login">
+	<form action="" method="post" id="loginForm">
+		<label for="username">name</label>
+		<input type="text" id="username" name="username" required placeholder="enter username" /> 
+		<label for="password">password</label>
+		<input type="password" id="password" name="password" required placeholder="enter password" />
+		<button type="submit">log in</button> 	
 	</form>
+	</div>
 </div>
 
-<div>
-	<form>
-		first name <br>
-		<input type="text" name="firstname"> 
-		
-		<br> last name <br>
-		<input type="text" name="lastname"> 
-		
-		<br> street <br>
-		<input type="text" name="street">
-		
-		<br> postcode <br>
-		<input type="text" name="postcode">
-		
-		<br> city <br>
-		<input type="text" name="city">
-		
-		<br> country <br>
-		<input type="text" name="country">
-		
-		<br>
-		<input type="checkbox" name="checkboxprivate" value="private"> private <br>
-		
-		<br>
-		<button type="submit" name="addbutton"> add </button> 
-		<br>
-		
-	
-	</form>
-</div>
-		
-  </div>
-  
-  
-  
-  <div class="c">
-  	<table>
-	  <tr>
-	    <th>Personen</th>
-	  </tr>
-	  <tr>
-	    <td>Bob</td>
-	  </tr>
-	   <tr>
-	    <td>Lisa</td>
-	  </tr>
-	</table> 
-  
-  </div>
-</div>
 
+<div id="mapBox">	
+	<div class="wrapper">
+
+		<div class="a">
+			<button id="addBtn" type="button">add</button> 
+			<button id="updateBtn" type="button">update / delete</button>
+			<button id="showMapBtn" type="button">show map</button>
+			<button id="logoutBtn" type="button">logout</button> 
+		</div>
+		
+		<div class="b">	
+	  		<div id="map"></div>
+	   		
+	   		<div id="formBox">
+	   		
+	   			<div id="formMsg">
+	   				Daten wurden gespeichert!
+	   			</div>
+	   			
+	   			<form action="" method="post" id="addForm">
+				<label for="firstname">first name</label>
+				<input type="text" name="firstname" id="firstname"> 
+				
+				<label for="lastname"> last name </label>
+				<input type="text" name="lastname" id="lastname"> 
+				
+				<label for="street"> street </label>
+				<input type="text" name="street" id="street">
+				
+				<br class="clear" />
+				<label style="float:left;width:120px;"> postcode </label> 
+				<label style="float:left;width:100px;"> city </label>
+				<br class="clear" />
+				
+				<input type="text" name="postcode" style="float:left;width:90px;margin-right:10px;">
+				<input type="text" name="city" style="float:left;width:180px;">
+				<br class="clear" />
+				
+				<label> country </label>
+				<select name="country">
+					<option value="de">Deutschland</option>
+					<option value="fr">Frankreich</option>
+					<option value="es">Spanien</option>
+					<option value="au">Österreich</option>
+				</select>
+				
+				<br class="clear" />
+				<input type="checkbox" value="private" style="float:left;margin:15px 10px 0 0"> 
+				<label style="float:left;">private</label>
+				<br class="clear" />
+				
+				<button id="addFormBtn"> add </button> 								
+				<button id="updateFormBtn" style="float:left;width:145px;margin-right:20px"> update </button>
+				<button id="deleteFormBtn" style="float:left;width:145px;"> delete </button> 	
+				<br class="clear" />	
+				</form>
+	   		</div>
+	   	</div>
+	   	
+	   	<div class="c">
+	   		<h2>Personen</h2>
+	   		<ul>
+	   		<li id="1">Bob</li>
+	   		<li id="2">Lisa</li>
+	   		</ul>
+	   	</div>
+	   	
+	</div>
+</div>
+	  
 </body>
+
+
+
 </html>
