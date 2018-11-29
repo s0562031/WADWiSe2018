@@ -5,6 +5,11 @@ function jumpTo(lon, lat, zoom) {
     return false;
 }
 
+function getPopuptext(name) {
+	var popuptext=name;
+	return popuptext;
+}
+
 function Lon2Merc(lon) {
     return 20037508.34 * lon / 180;
 }

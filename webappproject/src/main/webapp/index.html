@@ -34,19 +34,21 @@ var layer_markers;
 
 var loncor = 6.641389; 
 var latcor = 49.756667;
+var prezoom = 7;
 
 var name = "Dustin";
+var popuptext="<font color=\"black\"><b>Dustin<br>Stra&szlig;e 123<br>54290 Trier</b></font>";
 
 function drawmap() {
     // Popup und Popuptext mit evtl. Grafik
-    var popuptext="<font color=\"black\"><b>Dustin<br>Stra&szlig;e 123<br>54290 Trier</b><p><img src=\"test.jpg\" width=\"180\" height=\"113\"></p></font>";
+   
 
     OpenLayers.Lang.setCode('de');
     
     // Position und Zoomstufe der Karte
     var lon = loncor;
     var lat = latcor;
-    var zoom = 7;
+    var zoom = prezoom;
 
     map = new OpenLayers.Map('map', {
         projection: new OpenLayers.Projection("EPSG:900913"),
@@ -158,8 +160,9 @@ function drawmap() {
 	   	<div class="c">
 	   		<h2>Personen</h2>
 	   		<ul>
-	   		<li id="1">Bob</li>
-	   		<li id="2">Lisa</li>
+	   		<!-- Popuptexte lassen sich noch mehrmals erstellen, einer pro Typ reicht--> 
+	   		<li id="1" onclick="addMarker(layer_markers, 10.529730, 52.247460, getPopuptext(name))">Bob</li>
+	   		<li id="2" onclick="addMarker(layer_markers, 11.857981, 52.270910, popuptext)">Lisa</li>
 	   		</ul>
 	   	</div>
 	   	
