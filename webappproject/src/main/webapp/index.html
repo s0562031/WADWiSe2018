@@ -103,7 +103,8 @@ function drawmap() {
 
 		<div class="a">
 			<button id="addBtn" type="button">add</button> 
-			<button id="updateBtn" type="button">update / delete</button>
+			<button id="updateBtn" type="button">update</button>
+			<button id="deleteBtn" type="button">delete</button>
 			<button id="showMapBtn" type="button">show map</button>
 			<button id="logoutBtn" type="button">logout</button> 
 		</div>
@@ -150,16 +151,26 @@ function drawmap() {
 				<br class="clear" />
 				
 				<button id="addFormBtn"> add </button> 								
-				<button id="updateFormBtn" style="float:left;width:145px;margin-right:20px"> update </button>
-				<button id="deleteFormBtn" style="float:left;width:145px;"> delete </button> 	
+				<button id="updateFormBtn"> update </button>
 				<br class="clear" />	
 				</form>
+	   		</div>
+	   		
+	   		<div id="deleteBox">	   		
+	   			<div id="formMsg">
+	   				Daten wurden gelöscht!
+	   			</div>
+	   			
+	   			<p>Adresse des zu löschenden Users.</p>
+	   			
+				<button id="deleteFormBtn"> delete </button> 	
+				<br class="clear" />	
 	   		</div>
 	   	</div>
 	   	
 	   	<div class="c">
 	   		<h2>Personen</h2>
-	   		<ul>
+	   		<ul id="navi">
 	   		<!-- Popuptexte lassen sich noch mehrmals erstellen, einer pro Typ reicht--> 
 	   		<li id="1" onclick="addMarker(layer_markers, 10.529730, 52.247460, getPopuptext(name))">Bob</li>
 	   		<li id="2" onclick="store(lisa,popuptext)">Lisa</li>

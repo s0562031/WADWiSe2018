@@ -91,7 +91,8 @@ button:hover{
 	position:relative;
 }
 
-.c ul li:hover{
+.c ul li:hover,
+.c ul li.active{
 	background:#48596a;
 	cursor:pointer;
 }
@@ -146,13 +147,13 @@ select {
 #mapBox,
 #formMsg,
 #addFormBtn,
-#updateFormBtn,
-#deleteFormBtn {
+#updateFormBtn {
 	display:none;
 }
 
 #formBox,
-#formBoxTmp{
+#formBoxTmp,
+#deleteBox{
 	display:none;
 	padding:20px 30px;
 }
