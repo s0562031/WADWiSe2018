@@ -139,12 +139,16 @@ $( document ).ready(function() {
 				data[k.name] = 'DE';
 			}						
 		});
+			
+		// get long lat 
+		var latlong = getLatLong();
+		
+		data['lat'] = latlong.lat;
+		data['long'] = latlong.long;
 		
 		store(localStorage.length+1, data);
 		 
-		 // ajax request to check user password will be here
-		 
-		 //$('#formMsg').show();
+		//$('#formMsg').show();
 		 
 	});
 	
