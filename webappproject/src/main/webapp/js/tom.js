@@ -5,9 +5,16 @@ function jumpTo(lon, lat, zoom) {
     return false;
 }
 
-function getPopuptext(name) {
-	var popuptext=name;
-	return popuptext;
+function getPopuptext(id) {
+	return localStorage.getItem(id);
+}
+
+function store(id, data) {
+	
+	if (typeof(Storage) !== "undefined") {
+	    localStorage.setItem("id", "data");
+	} else alert("undeinfed");
+	alert(getPopuptext("id"));
 }
 
 function Lon2Merc(lon) {
