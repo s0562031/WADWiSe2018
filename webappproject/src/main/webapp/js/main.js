@@ -24,6 +24,16 @@ $( document ).ready(function() {
 		 handlePages();	 
 	});
 	
+	// click on persons navigation
+	$('ul#navi li').on('click', function(e) {		
+		$.cookie("page", 2); 
+		
+		$(this).parent().children().removeClass('active');
+		$(this).addClass('active');
+		
+		handlePages();		
+	});
+	
 	// click on add button
 	$('#addBtn').on('click', function(e) {		
 		$.cookie("page", 3); 
@@ -35,13 +45,20 @@ $( document ).ready(function() {
 		handlePages();		
 	});
 	
-	// click on map button
+	// click on update button
 	$('#updateBtn').on('click', function(e) {		
 		$.cookie("page", 4); 	
 		
 		$('form #firstname').val("Bob");
 		$('form #lastname').val("Baumeister");
 		$('form #street').val("Teststr. 20");
+		
+		handlePages();	
+	});
+	
+	// click on delete button
+	$('#deleteBtn').on('click', function(e) {		
+		$.cookie("page", 5); 	
 		
 		handlePages();	
 	});
@@ -99,6 +116,7 @@ $( document ).ready(function() {
 				$('#mapBox').show();
 				$('#map').show();
 				$('#formBox').hide();
+				$('#deleteBox').hide();
 				drawmap();
 				break;
 			case '3': 
@@ -108,7 +126,7 @@ $( document ).ready(function() {
 				$('#formBox').show();
 				$('#addFormBtn').show();
 				$('#updateFormBtn').hide();
-				$('#deleteFormBtn').hide();
+				$('#deleteBox').hide();
 				break;	
 			case '4': 
 				$('#loginBox').hide();
@@ -117,8 +135,15 @@ $( document ).ready(function() {
 				$('#formBox').show();
 				$('#addFormBtn').hide();
 				$('#updateFormBtn').show();
-				$('#deleteFormBtn').show();
-				break;	
+				$('#deleteBox').hide();
+				break;
+			case '5': 
+				$('#loginBox').hide();
+				$('#mapBox').show();
+				$('#map').hide();
+				$('#formBox').hide();
+				$('#deleteBox').show();
+				break;
 			default:
 				$.cookie('page', 1); 
 				$('#loginBox').show();
