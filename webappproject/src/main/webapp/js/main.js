@@ -11,6 +11,50 @@ $( document ).ready(function() {
 	//$('#map').height(windowHeight-headerHeight);
 	
 	
+	/*var data = {
+		[
+		'id' : 1,
+		'firstname' : 'Lisa',
+		'lastname' : '',
+		'street' : '',
+		'postcode' : '',
+		'city' : '',
+		'country' : '',
+		'private' : false,
+		],
+		[
+		'id' : 2,
+		'
+			
+		]
+		
+		
+			
+			
+	};
+	
+	
+	// get data from db
+	if($.cookie('page') == 2){
+		
+		
+		
+		$.ajax({
+			url: "",
+			type: 'POST',
+			contentType:'application/json',
+			data: JSON.stringify(data),
+			dataType:'json'
+				   
+		}).done(function() {
+			$( this ).addClass( "done" );
+		}).fail(function() {
+		    alert( "error" );
+		});
+		
+	}*/
+	
+	
 	// submit login page form
 	$('#loginForm').on('submit', function(e) {		
 		 
@@ -41,7 +85,7 @@ $( document ).ready(function() {
 		$('form #firstname').val("");
 		$('form #lastname').val("");
 		$('form #street').val("");
-		
+				
 		handlePages();		
 	});
 	
@@ -80,7 +124,23 @@ $( document ).ready(function() {
 	// submit add form
 	$('#addForm').on('submit', function(e) {		
 		 
-		 e.preventDefault(); // do not submit form
+		e.preventDefault(); // do not submit form	
+		
+		var data = {}
+		
+		$(this).children().each(function(i,k) {
+			
+			if(k.tagName == 'INPUT') {
+								
+				data[k.name] = k.value;
+			}
+			
+			if(k.tagName == 'SELECT') {
+				data[k.name] = 'DE';
+			}						
+		});
+		
+		store(localStorage.length+1, data);
 		 
 		 // ajax request to check user password will be here
 		 
@@ -150,7 +210,7 @@ $( document ).ready(function() {
 				$('#mapBox').hide();
 		}
 		
-		console.log($.cookie('page'));
+		//console.log($.cookie('page'));
 	}		
 });
 
