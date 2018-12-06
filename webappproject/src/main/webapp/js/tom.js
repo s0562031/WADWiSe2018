@@ -5,17 +5,6 @@ function jumpTo(lon, lat, zoom) {
     return false;
 }
 
-function getPopuptext(id) {
-	return localStorage.getItem(id);
-}
-
-function store(id, data) {
-	
-	if (typeof(Storage) !== "undefined") {
-	    localStorage.setItem("id", "data");
-	} else alert("undeinfed");
-	alert(getPopuptext("id"));
-}
 
 function Lon2Merc(lon) {
     return 20037508.34 * lon / 180;

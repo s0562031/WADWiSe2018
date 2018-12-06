@@ -45,7 +45,7 @@ $( document ).ready(function() {
 			contentType:'application/json',
 			data: JSON.stringify(data),
 			dataType:'json'
-				   
+				   <
 		}).done(function() {
 			$( this ).addClass( "done" );
 		}).fail(function() {
@@ -162,6 +162,22 @@ $( document ).ready(function() {
 		
 		$('addForm').submit();
 	});
+	
+	function getPopuptext(id) {
+		return localStorage.getItem(id);
+	}
+
+	function store(id, data) {
+		
+		//localStorage.clear();
+		
+		if (typeof(Storage) !== "undefined") {
+		    localStorage.setItem(id, data);
+		} else alert("undeinfed");
+		console.log(id);
+		console.log(JSON.stringify(getPopuptext(id)));
+		
+	}
 	
 	function handlePages(){
 		
