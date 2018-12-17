@@ -3,12 +3,12 @@ $( document ).ready(function() {
 	handlePages();
 	
 	// get window height
-	//var windowHeight = $( window ).height();
-	//var headerHeight = $('.a').height();
+	var windowHeight = $( window ).height();
+	var headerHeight = $('.a').height();
 	
 	// set grid to window height
-	$('.c').height(windowHeight);
-	$('#map').height(windowHeight-headerHeight);
+	//$('.c').height(windowHeight);
+	//$('#map').height(windowHeight-headerHeight);
 	
 	loadLocalStorage();
 
