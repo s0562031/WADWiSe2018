@@ -141,12 +141,14 @@ $( document ).ready(function() {
 		});
 			
 		// get long lat 
-		var latlong = getLatLong();
+		var lat = getLatLong();
+		console.log(lat);
+		//var long = getLatLong().long;
 		
-		data['lat'] = latlong.lat;
-		data['long'] = latlong.long;
+		//data['lat'] = latlong.lat;
+		//data['long'] = latlong.long;
 		
-		store(localStorage.length+1, data);
+		//store(localStorage.length+1, data);
 		 
 		//$('#formMsg').show();
 		 
@@ -181,6 +183,40 @@ $( document ).ready(function() {
 		console.log(id);
 		console.log(JSON.stringify(getPopuptext(id)));
 		
+	}
+	
+	function getLatLong() {
+		
+		console.log("hallo");
+		
+		var street = document.getElementsByName("street").value;
+		var city = document.getElementsByName("city").value;
+		console.log(street);
+		console.log(city);
+		
+		var xhttp = new XMLHttpRequest();
+		var url= "https://nominatim.openstreetmap.org/search?q=' + street +  city + '&format=json&limit=1";
+		var data;
+		var obj;
+		
+		xhttp.open("GET", url, true);
+		xhttp.send();
+		
+		xhttp.onload = function(e) {
+			data = this.response;
+			obj = JSON.parse(data);
+			console.log(obj);
+			console.log(obj[0].lat);
+			console.log(obj[0].lon);
+		};
+		
+		xhttp.onerror = function() {
+			console.log("not found");
+		};	
+		
+		
+		
+		return obj;
 	}
 	
 	function handlePages(){
