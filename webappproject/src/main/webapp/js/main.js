@@ -3,70 +3,15 @@ $( document ).ready(function() {
 	handlePages();
 	
 	// get window height
-	var windowHeight = $( window ).height();
-	var headerHeight = $('.a').height();
+	//var windowHeight = $( window ).height();
+	//var headerHeight = $('.a').height();
 	
 	// set grid to window height
-	//$('.c').height(windowHeight);
-	//$('#map').height(windowHeight-headerHeight);
+	$('.c').height(windowHeight);
+	$('#map').height(windowHeight-headerHeight);
 	
-	//blueprint for users
-	var user = {
-			firstname: "",
-			lastname: "",
-			street: "",
-			postcode: "",
-			city: "",
-			country: "",
-			lat: "",
-			lon: "",
-			privateentry: false,
-	}
-	
-	/*var data = {
-		[
-		'id' : 1,
-		'firstname' : 'Lisa',
-		'lastname' : '',
-		'street' : '',
-		'postcode' : '',
-		'city' : '',
-		'country' : '',
-		'private' : false,
-		],
-		[
-		'id' : 2,
-		'
-			
-		]
-		
-		
-			
-			
-	};
-	
-	
-	// get data from db
-	if($.cookie('page') == 2){
-		
-		
-		
-		$.ajax({
-			url: "",
-			type: 'POST',
-			contentType:'application/json',
-			data: JSON.stringify(data),
-			dataType:'json'
-				   <
-		}).done(function() {
-			$( this ).addClass( "done" );
-		}).fail(function() {
-		    alert( "error" );
-		});
-		
-	}*/
-	
-	
+	loadLocalStorage();
+
 	// submit login page form
 	$('#loginForm').on('submit', function(e) {		
 		 
@@ -81,24 +26,20 @@ $( document ).ready(function() {
 	});
 	
 	// click on persons navigation
-	$('ul#navi li').on('click', function(e) {		
+	$('ul#navi').on('click', 'li', function(e) {		
 		$.cookie("page", 2); 
 		
 		$(this).parent().children().removeClass('active');
 		$(this).addClass('active');
-		//TODO: Marker entstehen beim Klick auf einen Eintrag
+		
+		addNewMarker(getUser($(this).attr("id")));
 		
 		handlePages();		
 	});
 	
 	// click on add button
 	$('#addBtn').on('click', function(e) {		
-		$.cookie("page", 3); 
-		
-		$('form #firstname').val("");
-		$('form #lastname').val("");
-		$('form #street').val("");
-				
+		$.cookie("page", 3); 				
 		handlePages();		
 	});
 	
@@ -117,8 +58,7 @@ $( document ).ready(function() {
 	
 	// click on delete button
 	$('#deleteBtn').on('click', function(e) {		
-		$.cookie("page", 5); 	
-		
+		$.cookie("page", 5); 			
 		handlePages();	
 	});
 	
@@ -141,33 +81,30 @@ $( document ).ready(function() {
 		 
 		e.preventDefault(); // do not submit form	
 		
-		var data = {}
+		var data = {}		
+		data['id'] = localStorage.length+1;
 		
 		$(this).children().each(function(i,k) {
 			
-			if(k.tagName == 'INPUT') {
+			if($(this).prop("type") == 'text') {
 								
-				data[k.name] = k.value;
+				data[$(this).prop("name")] = $(this).val();
 			}
 			
-			if(k.tagName == 'SELECT') {
-				data[k.name] = 'DE';
+			if($(this).prop("type") == 'checkbox') {
+				
+				data[$(this).prop("name")] = $(this).is(':checked');
+			}
+			
+			if($(this).prop("type") == 'select-one') {
+				
+				data[$(this).prop("name")] = $(this).children('option:selected').text();
 			}						
 		});
 		
-		//writing userdata
-		user.firstname = document.getElementById("firstname").value;
-		user.lastname = document.getElementById("lastname").value;
-		user.street = document.getElementById("street").value;
-		user.postcode = document.getElementById("postcode").value;
-		//user.country = document.getElementById("country").value;
-		//user.privateentry = document.getElementById("privateentry").value;
-		
 		//calling getLatLong --> calls store
-		getLatLong(user);
- 
-		//$('#formMsg').show();
-		 
+		getLatLong(data);
+		
 	});
 	
 	$('#addFormBtn').on('click', function(e) {
@@ -185,9 +122,16 @@ $( document ).ready(function() {
 		$('addForm').submit();
 	});
 	
-	
+	function loadLocalStorage() {
+		
+		for ( var i = 1; i <= localStorage.length; i++ ) {				
+			addUsertoBar(getUser(i));
+			
+		}
+	}
+		
 	function getUser(id) {
-		return localStorage.getItem(id);
+		return JSON.parse(localStorage.getItem(id));
 	}
 	
 	function clearLocalStorage() {
@@ -197,62 +141,66 @@ $( document ).ready(function() {
 	function store(id, data) {
 		
 		if (typeof(Storage) !== "undefined") {
-		    localStorage.setItem(id, data);
-		} else alert("undeinfed");
+			
+		    localStorage.setItem(id, JSON.stringify(data));
+		    
+		} else alert("undefined");
 		
 		console.log(id);
-		//console.log(JSON.stringify(getUser(id)));
-		
 	}
 	
 	function getLatLong(user) {
 		
-		var street = document.getElementById("street").value;
-		var city = document.getElementById("city").value;
-		//var postcode = document.getElementById("postcode").value;
+		var street = user.street;
+		var city = user.city;
+		var postcode = user.postcode;
 		var address = city + "+" + street;
-		
-		console.log(street);
-		console.log(city);
-		console.log(postcode);
-		
-		var xhttp = new XMLHttpRequest();
+				
 		var url= "https://nominatim.openstreetmap.org/search?q=" + address + "&format=json&limit=1";
-		console.log(url);
-		var data;
-		var obj;
-		var address = {
-			lat: "",
-			lon: "",			
-		}
 		
-		xhttp.open("GET", url, true);
-		xhttp.send();
+		$.get( url, function(data) {
+			
+			//console.log(data);
+			
+			if(data.length){
+				
+				user.lat = data[0]['lat'];
+				user.lon = data[0]['lon'];
+								
+				store(user.id, user);					
+				addUsertoBar(user);
+				
+				$.cookie("page", 2); 
+				handlePages();
+				
+				addNewMarker(user);
+			
+			} else {
+				
+				alert("address not found");
+			}
+			
+		}).fail(function() {
+				
+			console.log("error");
+		});
+	}
+	
+	function addUsertoBar(user){
 		
-		xhttp.onload = function(e) {
-			data = this.response;
-			obj = JSON.parse(data);
-			//console.log(obj);
-			//console.log(obj[0].lat);
-			//console.log(obj[0].lon);
-			
-			//address.lat = obj[0].lat;
-			//address.lon = obj[0].lon;
-			
-			//console.log(address.lat);
-			//console.log(address.lon);
-			
-			user.lat = obj[0].lat;
-			user.lon = obj[0].lon;
-			
-			store(localStorage.length+1, user);			
-			newMarker(obj[0].lon, obj[0].lat);
-		};
+		$("ul#navi")
+			.append("<li>")
+			.children("li")
+			.last()
+			.text(user.firstname)
+			.attr("id",user.id);
+	}
+	
+	function addNewMarker(user) {
 		
-		xhttp.onerror = function() {
-			console.log("not found");
-		};	
-		
+		console.log(user.lon, user.lat);
+		 
+		newMarker(user.lon, user.lat);
 	}
 	
 	function handlePages(){
@@ -303,7 +251,7 @@ $( document ).ready(function() {
 		}
 		
 		//console.log($.cookie('page'));
-	}		
+	}
 });
 
 // Cookie Plugin

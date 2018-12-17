@@ -24,83 +24,6 @@
 <script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
 <script type="text/javascript" src="js/tom.js"></script>
 
-
-<script type="text/javascript">
-//<![CDATA[
-
-var map;
-var layer_mapnik;
-var layer_tah;
-var layer_markers;
-
-var loncor = 13.517320; 
-var latcor = 52.471450;
-var prezoom = 7;
-
-var name = "Dustin";
-var popuptext="<font color=\"black\"><b>Dustin<br>Stra&szlig;e 123<br>54290 Trier</b></font>";
-
-function drawmap(latcor, loncor) {
-    // Popup und Popuptext mit evtl. Grafik
-   
-
-    OpenLayers.Lang.setCode('de');
-    
-    // Position und Zoomstufe der Karte
-    var lon = loncor;
-    var lat = latcor;
-    var zoom = prezoom;
-
-    map = new OpenLayers.Map('map', {
-        projection: new OpenLayers.Projection("EPSG:900913"),
-        displayProjection: new OpenLayers.Projection("EPSG:4326"),
-        controls: [
-            new OpenLayers.Control.Navigation(),
-            new OpenLayers.Control.LayerSwitcher(),
-            new OpenLayers.Control.PanZoomBar()],
-        maxExtent:
-            new OpenLayers.Bounds(-20037508.34,-20037508.34,
-                                    20037508.34, 20037508.34),
-        numZoomLevels: 18,
-        maxResolution: 156543,
-        units: 'meters'
-    });
-
-    layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-    layer_markers = new OpenLayers.Layer.Markers("Address", { projection: new OpenLayers.Projection("EPSG:4326"), 
-    	                                          visibility: true, displayInLayerSwitcher: false });
-
-    map.addLayers([layer_mapnik, layer_markers]);
-    jumpTo(lon, lat, zoom);    
-    //map.setCenter(lon, lat, zoom);
-    
-    // Position des Markers
-    addMarker(layer_markers, 13.517320, 52.471450, popuptext);
-
-}
-
-function newMarker(lon, lat) {
-
-    var lonLat = new OpenLayers.LonLat(lon,lat)
-          .transform(
-            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-            map.getProjectionObject() // to Spherical Mercator Projection
-          );
-          
-    var zoom=10;
-
-    var markers = new OpenLayers.Layer.Markers( "Markers" );
-    //map.addLayer(markers);
-    //markers.addMarker(new OpenLayers.Marker(lonLat));
-    layer_markers.addMarker(new OpenLayers.Marker(lonLat));
-    map.setCenter (lonLat, zoom);
-}
-
-
-//]]>
-</script>
-
-
 </head>
 
 <body>
@@ -110,7 +33,7 @@ function newMarker(lon, lat) {
 	<form action="" method="post" id="loginForm">
 		<label for="username">name</label>
 		<input type="text" id="username" name="username" required placeholder="enter username" /> 
-		<label foGoogler="password">password</label>
+		<label for="password">password</label>
 		<input type="password" id="password" name="password" required placeholder="enter password" />
 		<button type="submit">log in</button> 	
 	</form>
@@ -134,27 +57,23 @@ function newMarker(lon, lat) {
 	   		
 	   		<div id="formBox">
 	   		
-	   			<div id="formMsg">
-	   				Daten wurden gespeichert!
-	   			</div>
-	   			
 	   			<form action="" method="post" id="addForm">
 				<label for="firstname">first name</label>
-				<input type="text" name="firstname" id="firstname"> 
+				<input type="text" name="firstname" id="firstname" required> 
 				
 				<label for="lastname"> last name </label>
-				<input type="text" name="lastname" id="lastname"> 
+				<input type="text" name="lastname" id="lastname" required> 
 				
 				<label for="street"> street </label>
-				<input type="text" name="street" id="street">
+				<input type="text" name="street" id="street" required>
 				
 				<br class="clear" />
 				<label style="float:left;width:120px;"> postcode </label> 
 				<label style="float:left;width:100px;"> city </label>
 				<br class="clear" />
 				
-				<input type="text" name="postcode" id="postcode" style="float:left;width:90px;margin-right:10px;">
-				<input type="text" name="city" id="city" style="float:left;width:180px;">
+				<input type="text" name="postcode" id="postcode" style="float:left;width:90px;margin-right:10px;" required>
+				<input type="text" name="city" id="city" style="float:left;width:180px;" required>
 				<br class="clear" />
 				
 				<label> country </label>
@@ -166,7 +85,7 @@ function newMarker(lon, lat) {
 				</select>
 				
 				<br class="clear" />
-				<input type="checkbox" value="private" style="float:left;margin:15px 10px 0 0"> 
+				<input type="checkbox" name="private" value="true" style="float:left;margin:15px 10px 0 0"> 
 				<label style="float:left;">private</label>
 				<br class="clear" />
 				
@@ -192,8 +111,6 @@ function newMarker(lon, lat) {
 	   		<h2>Personen</h2>
 	   		<ul id="navi">
 	   		<!-- Popuptexte lassen sich noch mehrmals erstellen, einer pro Typ reicht--> 
-	   		<li id="1">Bob</li>
-	   		<li id="2">Lisa</li>
 	   		</ul>
 	   	</div>
 	   	
@@ -201,7 +118,5 @@ function newMarker(lon, lat) {
 </div>
 	  
 </body>
-
-
 
 </html>
