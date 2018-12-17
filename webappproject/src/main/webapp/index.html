@@ -24,6 +24,7 @@
 <script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
 <script type="text/javascript" src="js/tom.js"></script>
 
+
 <script type="text/javascript">
 //<![CDATA[
 
@@ -32,14 +33,14 @@ var layer_mapnik;
 var layer_tah;
 var layer_markers;
 
-var loncor = 6.641389; 
-var latcor = 49.756667;
+var loncor = 13.517320; 
+var latcor = 52.471450;
 var prezoom = 7;
 
 var name = "Dustin";
 var popuptext="<font color=\"black\"><b>Dustin<br>Stra&szlig;e 123<br>54290 Trier</b></font>";
 
-function drawmap() {
+function drawmap(latcor, loncor) {
     // Popup und Popuptext mit evtl. Grafik
    
 
@@ -70,12 +71,31 @@ function drawmap() {
     	                                          visibility: true, displayInLayerSwitcher: false });
 
     map.addLayers([layer_mapnik, layer_markers]);
-    jumpTo(lon, lat, zoom);
- 
+    jumpTo(lon, lat, zoom);    
+    //map.setCenter(lon, lat, zoom);
+    
     // Position des Markers
-    addMarker(layer_markers, 6.641389, 49.756667, popuptext);
+    addMarker(layer_markers, 13.517320, 52.471450, popuptext);
 
 }
+
+function newMarker(lon, lat) {
+
+    var lonLat = new OpenLayers.LonLat(lon,lat)
+          .transform(
+            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            map.getProjectionObject() // to Spherical Mercator Projection
+          );
+          
+    var zoom=10;
+
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    //map.addLayer(markers);
+    //markers.addMarker(new OpenLayers.Marker(lonLat));
+    layer_markers.addMarker(new OpenLayers.Marker(lonLat));
+    map.setCenter (lonLat, zoom);
+}
+
 
 //]]>
 </script>
@@ -133,8 +153,8 @@ function drawmap() {
 				<label style="float:left;width:100px;"> city </label>
 				<br class="clear" />
 				
-				<input type="text" name="postcode" style="float:left;width:90px;margin-right:10px;">
-				<input type="text" name="city" style="float:left;width:180px;">
+				<input type="text" name="postcode" id="postcode" style="float:left;width:90px;margin-right:10px;">
+				<input type="text" name="city" id="city" style="float:left;width:180px;">
 				<br class="clear" />
 				
 				<label> country </label>

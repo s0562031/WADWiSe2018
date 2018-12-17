@@ -10,6 +10,18 @@ $( document ).ready(function() {
 	//$('.c').height(windowHeight);
 	//$('#map').height(windowHeight-headerHeight);
 	
+	//blueprint for users
+	var user = {
+			firstname: "",
+			lastname: "",
+			street: "",
+			postcode: "",
+			city: "",
+			country: "",
+			lat: "",
+			lon: "",
+			privateentry: false,
+	}
 	
 	/*var data = {
 		[
@@ -74,6 +86,7 @@ $( document ).ready(function() {
 		
 		$(this).parent().children().removeClass('active');
 		$(this).addClass('active');
+		//TODO: Marker entstehen beim Klick auf einen Eintrag
 		
 		handlePages();		
 	});
@@ -95,7 +108,9 @@ $( document ).ready(function() {
 		
 		$('form #firstname').val("Bob");
 		$('form #lastname').val("Baumeister");
-		$('form #street').val("Teststr. 20");
+		$('form #street').val("Loeperplatz");
+		$('form #city').val("berlin");
+		$('form #postcode').val("10367");
 		
 		handlePages();	
 	});
@@ -139,17 +154,18 @@ $( document ).ready(function() {
 				data[k.name] = 'DE';
 			}						
 		});
-			
-		// get long lat 
-		var lat = getLatLong();
-		console.log(lat);
-		//var long = getLatLong().long;
 		
-		//data['lat'] = latlong.lat;
-		//data['long'] = latlong.long;
+		//writing userdata
+		user.firstname = document.getElementById("firstname").value;
+		user.lastname = document.getElementById("lastname").value;
+		user.street = document.getElementById("street").value;
+		user.postcode = document.getElementById("postcode").value;
+		//user.country = document.getElementById("country").value;
+		//user.privateentry = document.getElementById("privateentry").value;
 		
-		//store(localStorage.length+1, data);
-		 
+		//calling getLatLong --> calls store
+		getLatLong(user);
+ 
 		//$('#formMsg').show();
 		 
 	});
@@ -169,35 +185,46 @@ $( document ).ready(function() {
 		$('addForm').submit();
 	});
 	
-	function getPopuptext(id) {
+	
+	function getUser(id) {
 		return localStorage.getItem(id);
+	}
+	
+	function clearLocalStorage() {
+		localStorage.clear();
 	}
 
 	function store(id, data) {
 		
-		//localStorage.clear();
-		
 		if (typeof(Storage) !== "undefined") {
 		    localStorage.setItem(id, data);
 		} else alert("undeinfed");
+		
 		console.log(id);
-		console.log(JSON.stringify(getPopuptext(id)));
+		//console.log(JSON.stringify(getUser(id)));
 		
 	}
 	
-	function getLatLong() {
+	function getLatLong(user) {
 		
-		console.log("hallo");
+		var street = document.getElementById("street").value;
+		var city = document.getElementById("city").value;
+		//var postcode = document.getElementById("postcode").value;
+		var address = city + "+" + street;
 		
-		var street = document.getElementsByName("street").value;
-		var city = document.getElementsByName("city").value;
 		console.log(street);
 		console.log(city);
+		console.log(postcode);
 		
 		var xhttp = new XMLHttpRequest();
-		var url= "https://nominatim.openstreetmap.org/search?q=' + street +  city + '&format=json&limit=1";
+		var url= "https://nominatim.openstreetmap.org/search?q=" + address + "&format=json&limit=1";
+		console.log(url);
 		var data;
 		var obj;
+		var address = {
+			lat: "",
+			lon: "",			
+		}
 		
 		xhttp.open("GET", url, true);
 		xhttp.send();
@@ -205,18 +232,27 @@ $( document ).ready(function() {
 		xhttp.onload = function(e) {
 			data = this.response;
 			obj = JSON.parse(data);
-			console.log(obj);
-			console.log(obj[0].lat);
-			console.log(obj[0].lon);
+			//console.log(obj);
+			//console.log(obj[0].lat);
+			//console.log(obj[0].lon);
+			
+			//address.lat = obj[0].lat;
+			//address.lon = obj[0].lon;
+			
+			//console.log(address.lat);
+			//console.log(address.lon);
+			
+			user.lat = obj[0].lat;
+			user.lon = obj[0].lon;
+			
+			store(localStorage.length+1, user);			
+			newMarker(obj[0].lon, obj[0].lat);
 		};
 		
 		xhttp.onerror = function() {
 			console.log("not found");
 		};	
 		
-		
-		
-		return obj;
 	}
 	
 	function handlePages(){
