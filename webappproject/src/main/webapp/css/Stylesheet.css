@@ -110,6 +110,11 @@ button:hover{
 	right:20px;
 }
 
+.c p {
+	margin:20px;
+	color:#fff;
+}
+
 #loginBox{
 	display:block;	
 	width:400px;

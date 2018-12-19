@@ -11,6 +11,8 @@ $( document ).ready(function() {
 	//$('.c').height(windowHeight);
 	//$('#map').height(windowHeight-headerHeight);
 	
+	loadLocalStorage();
+	
 	// submit login page form
 	$('#loginForm').on('submit', function(e) {		
 		 
@@ -74,9 +76,39 @@ $( document ).ready(function() {
 	
 	// click on delete button
 	$('#deleteBtn').on('click', function(e) {		
-		$.cookie("page", 5); 			
-		handlePages();	
+		
+		var id = $("ul#navi li.active").attr("id");
+		
+		if(id != undefined) {
+			
+			$.cookie("page", 5); 				
+			handlePages();		
+			
+			var user = getUser(id);
+			
+			var address = "<b>" + user.firstname + " " + 
+				user.lastname + "</b><br />" + 
+				user.street + "<br />" + 
+				user.postcode + " " + 
+				user.city + "<br />" + 
+				user.country;			
+			
+			$("p#delAdr").html(address);
+			
+		} else {
+			
+			alert("kein user ausgewählt!");
+		}
 	});
+	
+	$('#deleteFormBtn').on('click', function(e) {
+		
+		var id = $("ul#navi li.active").attr("id");
+		
+		if(id != undefined) {
+			deleteUser(id);
+		}
+	})
 	
 	// click on map button
 	$('#showMapBtn').on('click', function(e) {		
@@ -98,7 +130,7 @@ $( document ).ready(function() {
 		e.preventDefault(); // do not submit form	
 		
 		var data = {}		
-		data['id'] = localStorage.length+1;
+		data['id'] = localStorage.length;
 		
 		$(this).children().each(function(i,k) {
 			
@@ -140,15 +172,34 @@ $( document ).ready(function() {
 	
 	function loadLocalStorage() {
 		
-		for ( var i = 1; i <= localStorage.length; i++ ) {	
-			var usr = getUser(i);
-			addUsertoBar(usr);
-			addNewMarker(usr);
-		}
+		//console.log(localStorage.length);
+		
+		if (localStorage.length > 0) {
+			
+			$("#noUsers").hide();
+			
+			for ( var i = 0; i <= localStorage.length; i++ ) {	
+				
+				var usr = getUser(i);
+				
+				if(usr != null) {
+					
+					addUsertoBar(usr);
+				
+					if($('#OpenLayers_Map_5_OpenLayers_ViewPort').length != 0){
+						addNewMarker(usr);
+					}
+				}
+			}
+		}	
 	}
 		
 	function getUser(id) {
 		return JSON.parse(localStorage.getItem(id));
+	}
+	
+	function deleteUser(id) {
+		console.log(localStorage.removeItem(id));
 	}
 	
 	function clearLocalStorage() {
@@ -205,6 +256,8 @@ $( document ).ready(function() {
 	
 	function addUsertoBar(user){
 		
+		$("#noUsers").hide();
+		
 		$("ul#navi")
 			.append("<li>")
 			.children("li")
@@ -215,9 +268,13 @@ $( document ).ready(function() {
 	
 	function addNewMarker(user) {
 		
-		console.log(user.lon, user.lat);
+		var address = "<b>" + user.firstname + " " + 
+					user.lastname + "</b><br />" + 
+					user.street + "<br />" + 
+					user.postcode + " " + 
+					user.city + "<br />" + 
+					user.country;
 		
-		var address = user.street + "<br />" + user.postcode + " " + user.city;
 		newMarker(user.lon, user.lat, address);
 	}
 	
@@ -239,8 +296,6 @@ $( document ).ready(function() {
 				// draw map only once				
 				if($('#OpenLayers_Map_5_OpenLayers_ViewPort').length == 0){
 					drawmap();
-					loadLocalStorage();
-					//console.log("test");
 				}
 				break;
 			case '3': 

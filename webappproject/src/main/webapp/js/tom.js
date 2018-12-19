@@ -71,9 +71,7 @@ function Lat2Merc(lat) {
 }
 
 function addMarker(layer, lon, lat, popupContentHTML) {
-	
-	console.log("m", layer);
-	
+
 	var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
     var feature = new OpenLayers.Feature(layer, ll); 
     feature.closeBox = true;
