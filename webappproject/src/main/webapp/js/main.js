@@ -1,6 +1,7 @@
 $( document ).ready(function() {
 	
-	handlePages();
+	// first time handle pages
+	handlePages();	
 	
 	// get window height
 	var windowHeight = $( window ).height();
@@ -10,8 +11,6 @@ $( document ).ready(function() {
 	//$('.c').height(windowHeight);
 	//$('#map').height(windowHeight-headerHeight);
 	
-	loadLocalStorage();
-
 	// submit login page form
 	$('#loginForm').on('submit', function(e) {		
 		 
@@ -41,19 +40,36 @@ $( document ).ready(function() {
 	$('#addBtn').on('click', function(e) {		
 		$.cookie("page", 3); 				
 		handlePages();		
+		
+		$('form #firstname').val("");
+		$('form #lastname').val("");
+		$('form #street').val("");
+		$('form #city').val("");
+		$('form #postcode').val("");
 	});
 	
 	// click on update button
 	$('#updateBtn').on('click', function(e) {		
-		$.cookie("page", 4); 	
+					
+		var id = $("ul#navi li.active").attr("id");
 		
-		$('form #firstname').val("Bob");
-		$('form #lastname').val("Baumeister");
-		$('form #street').val("Loeperplatz");
-		$('form #city').val("berlin");
-		$('form #postcode').val("10367");
-		
-		handlePages();	
+		if(id != undefined) {
+			
+			$.cookie("page", 4); 				
+			handlePages();		
+			
+			var user = getUser(id);
+			
+			$('form #firstname').val(user.firstname);
+			$('form #lastname').val(user.lastname);
+			$('form #street').val(user.street);
+			$('form #city').val(user.city);
+			$('form #postcode').val(user.postcode);
+			
+		} else {
+			
+			alert("kein user ausgewählt!");
+		}
 	});
 	
 	// click on delete button
@@ -124,9 +140,10 @@ $( document ).ready(function() {
 	
 	function loadLocalStorage() {
 		
-		for ( var i = 1; i <= localStorage.length; i++ ) {				
-			addUsertoBar(getUser(i));
-			
+		for ( var i = 1; i <= localStorage.length; i++ ) {	
+			var usr = getUser(i);
+			addUsertoBar(usr);
+			addNewMarker(usr);
 		}
 	}
 		
@@ -199,8 +216,9 @@ $( document ).ready(function() {
 	function addNewMarker(user) {
 		
 		console.log(user.lon, user.lat);
-		 
-		newMarker(user.lon, user.lat);
+		
+		var address = user.street + "<br />" + user.postcode + " " + user.city;
+		newMarker(user.lon, user.lat, address);
 	}
 	
 	function handlePages(){
@@ -217,7 +235,13 @@ $( document ).ready(function() {
 				$('#map').show();
 				$('#formBox').hide();
 				$('#deleteBox').hide();
-				drawmap();
+				
+				// draw map only once				
+				if($('#OpenLayers_Map_5_OpenLayers_ViewPort').length == 0){
+					drawmap();
+					loadLocalStorage();
+					//console.log("test");
+				}
 				break;
 			case '3': 
 				$('#loginBox').hide();

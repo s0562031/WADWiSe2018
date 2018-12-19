@@ -3,24 +3,14 @@ var layer_mapnik;
 var layer_tah;
 var layer_markers;
 
-var loncor = 13.517320; 
-var latcor = 52.471450;
-var prezoom = 7;
+function drawmap() {
 
-var name = "Dustin";
-var popuptext="<font color=\"black\"><b>Dustin<br>Stra&szlig;e 123<br>54290 Trier</b></font>";
-
-function drawmap(latcor, loncor) {
+	OpenLayers.Lang.setCode('de');
    
-	// Popup und Popuptext mit evtl. Grafik
-   
-
-    OpenLayers.Lang.setCode('de');
-    
-    // Position und Zoomstufe der Karte
-    var lon = loncor;
-    var lat = latcor;
-    var zoom = prezoom;
+    // Position und Zoomstufe der Karte - Berlin
+    var lon = 13.404954;
+    var lat = 52.520008;
+    var zoom = 11;
 
     map = new OpenLayers.Map('map', {
         projection: new OpenLayers.Projection("EPSG:900913"),
@@ -31,39 +21,34 @@ function drawmap(latcor, loncor) {
             new OpenLayers.Control.PanZoomBar()],
         maxExtent:
             new OpenLayers.Bounds(-20037508.34,-20037508.34,
-                                    20037508.34, 20037508.34),
+                                   20037508.34, 20037508.34),
         numZoomLevels: 18,
         maxResolution: 156543,
         units: 'meters'
     });
 
     layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-    layer_markers = new OpenLayers.Layer.Markers("Address", { projection: new OpenLayers.Projection("EPSG:4326"), 
-    	                                          visibility: true, displayInLayerSwitcher: false });
+    layer_markers = new OpenLayers.Layer.Markers("Address", { 
+    		projection: new OpenLayers.Projection("EPSG:4326"), 
+   	    	visibility: true, displayInLayerSwitcher: false });
 
     map.addLayers([layer_mapnik, layer_markers]);
-    jumpTo(lon, lat, zoom);    
-    //map.setCenter(lon, lat, zoom);
-    
-    // Position des Markers
-    addMarker(layer_markers, 13.517320, 52.471450, popuptext);
-
+    jumpTo(lon, lat, zoom);
 }
 
-function newMarker(lon, lat) {
-
-    var lonLat = new OpenLayers.LonLat(lon,lat)
+function newMarker(lon, lat, popuptext) {
+	
+   var lonLat = new OpenLayers.LonLat(lon,lat)
           .transform(
             new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
             map.getProjectionObject() // to Spherical Mercator Projection
           );
           
     var zoom=10;
-
-    var markers = new OpenLayers.Layer.Markers( "Markers" );
-    //map.addLayer(markers);
-    //markers.addMarker(new OpenLayers.Marker(lonLat));
-    layer_markers.addMarker(new OpenLayers.Marker(lonLat));
+    var markers = new OpenLayers.Layer.Markers( "Markers" );    
+    
+    // dynamisch
+    addMarker(layer_markers, Number(lon), Number(lat), popuptext);
     map.setCenter (lonLat, zoom);
 }
 
@@ -86,8 +71,10 @@ function Lat2Merc(lat) {
 }
 
 function addMarker(layer, lon, lat, popupContentHTML) {
-
-    var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
+	
+	console.log("m", layer);
+	
+	var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
     var feature = new OpenLayers.Feature(layer, ll); 
     feature.closeBox = true;
     feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
@@ -108,7 +95,7 @@ function addMarker(layer, lon, lat, popupContentHTML) {
         OpenLayers.Event.stop(evt);
     };
     marker.events.register("mousedown", feature, markerClick);
-
+   
     layer.addMarker(marker);
     map.addPopup(feature.createPopup(feature.closeBox));
 }
