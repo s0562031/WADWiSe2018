@@ -33,7 +33,7 @@ $( document ).ready(function() {
 		$(this).parent().children().removeClass('active');
 		$(this).addClass('active');
 		
-		addNewMarker(getUser($(this).attr("id")));
+		//addNewMarker(getUser($(this).attr("id")));
 		
 		handlePages();		
 	});
