@@ -107,6 +107,12 @@ $( document ).ready(function() {
 		
 		if(id != undefined) {
 			deleteUser(id);
+			$("li#" + id).remove();
+			
+			if(localStorage.length == 0) $("p#noUsers").show();
+			
+			$.cookie("page", 2); 
+			handlePages();	
 		}
 	})
 	
@@ -199,7 +205,7 @@ $( document ).ready(function() {
 	}
 	
 	function deleteUser(id) {
-		console.log(localStorage.removeItem(id));
+		localStorage.removeItem(id);
 	}
 	
 	function clearLocalStorage() {
