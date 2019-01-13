@@ -4,6 +4,7 @@ client/CommunicatorTest.class
 bean/User.class
 repository/IUserDAO.class
 run/Application.class
+client/SqlTester.class
 controller/UserController.class
 service/IUserService.class
 service/UserService.class

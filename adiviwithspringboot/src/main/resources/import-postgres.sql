@@ -1,2 +1,0 @@
-INSERT INTO users(lastname, firstname, password, isadmin) VALUES('Mueller', 'Tom', 'abc123', true);
-INSERT INTO users(lastname, firstname, password, isadmin) VALUES('Schmidt', 'Gabi', 'abc123', false);

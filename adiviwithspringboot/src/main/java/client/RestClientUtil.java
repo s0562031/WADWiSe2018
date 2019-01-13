@@ -25,7 +25,7 @@ public class RestClientUtil {
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/user/article/{id}";
+        String url = "http://localhost:8080/user/{id}";
         HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
         ResponseEntity<User> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, User.class, 1);
         User user = responseEntity.getBody();

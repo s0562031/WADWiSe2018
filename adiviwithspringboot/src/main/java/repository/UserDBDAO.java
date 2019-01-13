@@ -2,6 +2,8 @@ package repository;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,6 +22,13 @@ public class UserDBDAO implements IUserDAO {
 
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
+	
+	@Autowired
+	public UserDBDAO(JdbcTemplate ds) {
+		this.jdbcTemplate = ds;
+	}
+	
 	
 	@Override
 	public User getUserById(int userId) {
