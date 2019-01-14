@@ -1,0 +1,2 @@
+INSERT INTO users(id, lastname, firstname, password, is_admin) VALUES(1, 'Mueller', 'Tom', 'abc123', true);
+INSERT INTO users(id, lastname, firstname, password, is_admin) VALUES(2, 'Schmidt', 'Gabi', 'abc123', false);
