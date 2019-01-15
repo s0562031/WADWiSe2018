@@ -1,5 +1,7 @@
 package de.htw.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -96,6 +98,28 @@ public class UserController {
 	}
 	
 	/**
+	 * gets JSON from user if entity with that id can be found in DB
+	 * @param id
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping("/getAllContacts")
+	private ResponseEntity<String> getAllContacts() throws JsonProcessingException {
+		
+		List<Contacts> contactlist = c_service.getAllContacts();		
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    
+	    if (contactlist == null) {
+	        return new ResponseEntity<String>("No Users found", 
+	                responseHeaders, HttpStatus.UNAUTHORIZED);
+	    } else {
+	        responseHeaders.add("Content-Type", "application/json");
+	        String json = convertListToJson(contactlist);
+	        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK); 
+	    }		
+	}
+	
+	/**
 	 * updates Contact 
 	 * @param id
 	 * @param firstname
@@ -135,6 +159,17 @@ public class UserController {
 	private String convertToJson(Contacts contact) throws JsonProcessingException{
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    return objectMapper.writeValueAsString(contact); 
+	}
+	
+	/**
+	 * creates JSON from User
+	 * @param user
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	private String convertListToJson(List<Contacts> contactlist) throws JsonProcessingException{
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    return objectMapper.writeValueAsString(contactlist); 
 	}
 	
 }
