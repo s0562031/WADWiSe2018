@@ -8,7 +8,7 @@ public interface IContactsService {
 
 	void deleteContact(int contactId);
 
-	void addContact(Contacts contact);
+	Contacts addContact(Contacts contact);
 
 	void updateContact(Contacts contact);
 

@@ -12,7 +12,6 @@ import de.htw.model.Users;
 import de.htw.repository.IContactsDAO;
 
 
-
 @Service("contactservice")
 public class ContactsService implements IContactsService{
 	
@@ -26,8 +25,13 @@ public class ContactsService implements IContactsService{
 	 * adds a Contact to the DB
 	 */
 	@Override
-	public void addContact(Contacts contact) {
-		repository.save(contact);
+	public Contacts addContact(Contacts contact) {
+		String sql = "INSERT INTO contacts (lastname, firstname, address, city, postcode, country) VALUES (?, ?, ? ,? ,?,?)";
+		jdbcTemplate.update(sql,contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry());
+		
+		String sqlget = "SELECT * FROM contacts WHERE id=(SELECT max(id) FROM contacts)";
+		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
+		return  jdbcTemplate.queryForObject(sqlget, rowMapper);
 	}
 	
 	/**
@@ -63,10 +67,10 @@ public class ContactsService implements IContactsService{
 	 * gets Contact by its Id
 	 */
 	@Override
-	public Contacts getContactById(int userId) {
+	public Contacts getContactById(int contactID) {
 		String sql = "SELECT * FROM users WHERE id = ?";
 		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
-		Contacts contact = jdbcTemplate.queryForObject(sql, rowMapper, userId);
+		Contacts contact = jdbcTemplate.queryForObject(sql, rowMapper, contactID);
 		return contact;
 	}
 
