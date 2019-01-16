@@ -62,8 +62,7 @@ public class ContactsService implements IContactsService{
 	public List<Contacts> getAllContacts() {
 		String sql = "SELECT * FROM contacts ORDER BY id";
 		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
-		List<Contacts> contact = (List<Contacts>) jdbcTemplate.queryForObject(sql, rowMapper);
-		return contact;
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Contacts.class));
 	} 
 	
 	/**
