@@ -108,6 +108,9 @@ $( document ).ready(function() {
 		}
 	});
 	
+	/*
+	 * hier habe ich rumgefummelt - Dustin
+	 */
 	function deleteUser(id){
 		
 		 var jqxhr = $.get( "/deleteContact?id=" + id, function(data) {

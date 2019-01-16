@@ -16,4 +16,6 @@ public interface IContactsService {
 
 	Contacts getContactById(int userId);
 
+	List<Contacts> getAllPublicContacts();
+
 }

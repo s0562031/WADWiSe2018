@@ -90,7 +90,7 @@ public class UserController {
 	 * @param id
 	 */
 	@RequestMapping("/deleteContact")
-	private ResponseEntity<String> deleteContact(int id) {
+	private ResponseEntity<String> deleteContact(@RequestParam int id) {
 		
 		c_service.deleteContact(id);
 				
@@ -148,6 +148,28 @@ public class UserController {
 	}
 	
 	/**
+	 * gets JSON from user if entity with that id can be found in DB
+	 * @param id
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping("/getAllPublicContacts")
+	private ResponseEntity<String> getAllPublicContacts() throws JsonProcessingException {
+		
+		List<Contacts> contactlist = c_service.getAllPublicContacts();		
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    
+	    if (contactlist == null) {
+	        return new ResponseEntity<String>("No Users found", 
+	                responseHeaders, HttpStatus.UNAUTHORIZED);
+	    } else {
+	        responseHeaders.add("Content-Type", "application/json");
+	        String json = convertListToJson(contactlist);
+	        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK); 
+	    }		
+	}
+	
+	/**
 	 * updates Contact 
 	 * @param id
 	 * @param firstname
@@ -156,10 +178,11 @@ public class UserController {
 	 * @param city
 	 * @param postcode
 	 * @param country
+	 * @param privat
 	 */
 	@RequestMapping("/updateContact")
-	private void update (@RequestParam int id, @RequestParam String lastname, @RequestParam String firstname, @RequestParam String address, @RequestParam String city, @RequestParam int postcode, @RequestParam String country) {
-		Contacts contact = new Contacts(id,lastname,firstname,address, city, postcode, country);
+	private void update (@RequestParam int id, @RequestParam String lastname, @RequestParam String firstname, @RequestParam String address, @RequestParam String city, @RequestParam int postcode, @RequestParam String country, @RequestParam boolean privat) {
+		Contacts contact = new Contacts(id,lastname,firstname,address, city, postcode, country, privat);
 		c_service.updateContact(contact);
 	}
 	
