@@ -1,6 +1,7 @@
 package de.htw.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,7 +23,14 @@ public class UserService implements IUserService {
 	public Users loginUser(int userId, String password) {
 		String sql = "SELECT * FROM users WHERE id = ? AND password = ?";
 		RowMapper<Users> rowMapper = new BeanPropertyRowMapper<Users>(Users.class);
-		return jdbcTemplate.queryForObject(sql, rowMapper, userId, password);
+		Users user = null;
+		
+		try {
+			user = jdbcTemplate.queryForObject(sql, rowMapper, userId, password);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+		return user;
 	}
 	
 

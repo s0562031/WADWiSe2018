@@ -2,13 +2,13 @@ package de.htw.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import de.htw.model.Contacts;
-import de.htw.model.Users;
 import de.htw.repository.IContactsDAO;
 
 
@@ -26,8 +26,8 @@ public class ContactsService implements IContactsService{
 	 */
 	@Override
 	public Contacts addContact(Contacts contact) {
-		String sql = "INSERT INTO contacts (lastname, firstname, address, city, postcode, country) VALUES (?, ?, ? ,? ,?,?)";
-		jdbcTemplate.update( sql, contact.getLastname(), contact.getFirstname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry());
+		String sql = "INSERT INTO contacts (lastname, firstname, address, city, postcode, country, privat) VALUES (?, ?, ? ,? ,?,?, ?)";
+		jdbcTemplate.update( sql, contact.getLastname(), contact.getFirstname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry(), contact.isPrivat());
 		
 		String sqlget = "SELECT * FROM contacts WHERE id=(SELECT max(id) FROM contacts)";
 		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
@@ -40,8 +40,7 @@ public class ContactsService implements IContactsService{
 	@Override
 	public void deleteContact(int contactId) {
 		String sql = "DELETE FROM contacts WHERE id = ?";
-		RowMapper<Users> rowMapper = new BeanPropertyRowMapper<Users>(Users.class);
-		jdbcTemplate.queryForObject(sql, rowMapper, contactId);
+		jdbcTemplate.update(sql,contactId);
 	}
 	
 	/**
@@ -61,7 +60,16 @@ public class ContactsService implements IContactsService{
 	@Override
 	public List<Contacts> getAllContacts() {
 		String sql = "SELECT * FROM contacts ORDER BY id";
-		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Contacts.class));
+	} 
+	
+	/**
+	 * returns List of Contacts in DB
+	 * @return
+	 */
+	@Override
+	public List<Contacts> getAllPublicContacts() {
+		String sql = "SELECT * FROM contacts WHERE privat = false ORDER BY id";
 		return jdbcTemplate.query(sql, new BeanPropertyRowMapper(Contacts.class));
 	} 
 	
@@ -72,7 +80,13 @@ public class ContactsService implements IContactsService{
 	public Contacts getContactById(int contactID) {
 		String sql = "SELECT * FROM contacts WHERE id = ?";
 		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
-		Contacts contact = jdbcTemplate.queryForObject(sql, rowMapper, contactID);
+		Contacts contact = null;
+		
+		try {
+			contact = jdbcTemplate.queryForObject(sql, rowMapper, contactID);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 		return contact;
 	}
 

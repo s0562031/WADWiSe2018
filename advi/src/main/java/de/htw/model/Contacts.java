@@ -19,12 +19,13 @@ public class Contacts {
 	private String city;
 	private int postcode;
 	private String country;
+	private boolean privat;
 	
     public Contacts() {}
 	
 	
 	public Contacts(int id, String lastname, String firstname, String address, String city, int postcode,
-			String country) {
+			String country, boolean privat) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
@@ -33,6 +34,7 @@ public class Contacts {
 		this.city = city;
 		this.postcode = postcode;
 		this.country = country;
+		this.privat = privat;
 	}
 	
 	
@@ -78,7 +80,12 @@ public class Contacts {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
+	public boolean isPrivat() {
+		return privat;
+	}
+	public void setPrivat(boolean privat) {
+		this.privat = privat;
+	}
 	
 
 }
