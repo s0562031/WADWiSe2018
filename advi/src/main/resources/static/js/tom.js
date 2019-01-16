@@ -49,7 +49,7 @@ function newMarker(lon, lat, popuptext) {
     
     // dynamisch
     addMarker(layer_markers, Number(lon), Number(lat), popuptext);
-    map.setCenter (lonLat, zoom);
+   // map.setCenter (lonLat, zoom);
 }
 
 function jumpTo(lon, lat, zoom) {
@@ -71,6 +71,8 @@ function Lat2Merc(lat) {
 
 function addMarker(layer, lon, lat, popupContentHTML) {
 
+	//console.log(lon, lat);
+	
 	var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
     var feature = new OpenLayers.Feature(layer, ll); 
     feature.closeBox = true;
@@ -94,22 +96,43 @@ function addMarker(layer, lon, lat, popupContentHTML) {
         }
         OpenLayers.Event.stop(evt);
     };
-    marker.events.register("mousedown", feature, markerClick);
-   
+    marker.events.register("mousedown", feature, markerClick);   
     layer.addMarker(marker);
-    map.addPopup(feature.createPopup(feature.closeBox));
-   // popup.hide();
 }
 
-function openPopup(lon, lat){
-	var popups = map.popups;
-		
-	for(i=0; i<popups.length; i++){
-		var plon = popups[i]['lonlat']['lon'];
-		var plat = popups[i]['lonlat']['lat'];
-		
-		//console.log(plon, plat);
-	}
+var arr = {}; 
+
+function openPopup(id, lon, lat, adr){	
+	
+	 var lon = Number(lon);
+	 var lat = Number(lat);
+	
+	 var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
+	 var feature = new OpenLayers.Feature(layer_markers, ll); 
+	    feature.closeBox = true;
+	    feature.popupClass = OpenLayers.Class(
+	    		OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
+	    feature.data.popupContentHTML = adr;
+	    feature.data.overflow = "hidden";
+	
+	    var marker = new OpenLayers.Marker(ll);
+	    marker.feature = feature;
+	    
+	    if (arr[id] == null) {
+	    	  arr[id] = feature.createPopup(feature.closeBox);
+	          map.addPopup(arr[id]);
+	          arr[id].show();
+        } else {
+        	 arr[id].toggle();
+        }	  
+}
+
+function reloadMap(){
+	layer_markers.clearMarkers();
+	var pops = map.popups;
+	for(var a = 0; a < pops.length; a++){
+	   map.popups[a].hide();
+	};
 }
 
 function getCycleTileURL(bounds) {

@@ -17,7 +17,9 @@ $( document ).ready(function() {
 	     $('#deleteBtn').hide();
 	}
 	
-	console.log($.cookie("mapclicked"));
+	if($.cookie("userfn") != 'undefined') {
+		$('#helloMsg').text("Hallo " + $.cookie("userfn") + " " + $.cookie("userln") + " - Eingeloggt als " + $.cookie("adm"));			 
+	}
 	
 	// set grid to window height
 	//$('.c').height(windowHeight);
@@ -34,12 +36,15 @@ $( document ).ready(function() {
 		 // ajax request to check user password will be here
 		 var jqxhr = $.get( "/login?id=" + id + "&password=" + pass, function(data) {
 			 
-			 console.log(data.isAdmin);
+			 //console.log(data.isAdmin);
 			 
 			 $.cookie("page", 2); 			 
 			 $.cookie("admin", data.isAdmin);
+			 $.cookie("userfn", data.firstname);
+			 $.cookie("userln", data.lastname);
 			 
-			 handlePages();	
+			 handlePages();				 
+			 reloadMap(); // delete markers and hide popups
 			 
 			 // dirty fix
 			 $.cookie("mapclicked", 0);
@@ -52,9 +57,11 @@ $( document ).ready(function() {
 				 adm = "admin";	
 				 $('#addBtn').show();
 			     $('#deleteBtn').show();
+			     $.cookie("adm", "admin");
 		 	 } else {
 		 		 $('#addBtn').hide();
 			     $('#deleteBtn').hide();
+			     $.cookie("adm", "normalo");
 		 	 }
 		 
 			 $('#helloMsg').text("Hallo " + data.firstname + " " + data.lastname + " - Eingeloggt als " + adm);			 
@@ -207,7 +214,10 @@ $( document ).ready(function() {
 	$('#logoutBtn').on('click', function(e) {		
 		$.removeCookie("page"); 
 		$.removeCookie("admin");
-		$.cookie("mapclicked", 0); 
+		$.removeCookie("mapclicked");
+		$.removeCookie("userfn");
+		$.removeCookie("userln");
+		$.removeCookie("adm");
 		handlePages();	
 	});
 	
@@ -316,7 +326,12 @@ $( document ).ready(function() {
 		
 		$("#noUsers").hide();
 		
-		//console.log(user);
+		var adr = "<b>" + user.firstname + " " + 
+			user.lastname + "</b><br />" + 
+			user.address + "<br />" + 
+			user.postcode + " " + 
+			user.city + "<br />" + 
+			user.country;
 		
 		$("ul#navi")
 			.append("<li>")
@@ -325,7 +340,7 @@ $( document ).ready(function() {
 			.text(user.firstname)
 			.attr("id",user.id)
 			.bind("click", function() {
-				//openPopup(user.lon, user.lat);
+				openPopup(user.id, user.lon, user.lat, adr);
 			});		
 	}
 	
