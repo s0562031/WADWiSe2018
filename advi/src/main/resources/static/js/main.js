@@ -8,7 +8,7 @@ $( document ).ready(function() {
 	var headerHeight = $('.a').height();
 	
 	// fix for page reload
-	if($.cookie("mapclicked")) {
+	if($.cookie("mapclicked") == 1) {
 		showContacts();
 	}
 	
@@ -17,7 +17,7 @@ $( document ).ready(function() {
 	     $('#deleteBtn').hide();
 	}
 	
-	//console.log($.cookie("admin"));
+	console.log($.cookie("mapclicked"));
 	
 	// set grid to window height
 	//$('.c').height(windowHeight);
@@ -34,15 +34,24 @@ $( document ).ready(function() {
 		 // ajax request to check user password will be here
 		 var jqxhr = $.get( "/login?id=" + id + "&password=" + pass, function(data) {
 			 
+			 console.log(data.isAdmin);
+			 
 			 $.cookie("page", 2); 			 
 			 $.cookie("admin", data.isAdmin);
 			 
 			 handlePages();	
 			 
+			 // dirty fix
+			 $.cookie("mapclicked", 0);
+			 $('ul#navi li').remove();
+			 $('#noUsers').show();
+			 
 			 var adm = "normalo";
 			 
 			 if(data.isAdmin){
-				 adm = "admin";				 
+				 adm = "admin";	
+				 $('#addBtn').show();
+			     $('#deleteBtn').show();
 		 	 } else {
 		 		 $('#addBtn').hide();
 			     $('#deleteBtn').hide();
@@ -137,7 +146,7 @@ $( document ).ready(function() {
 	$('#showMapBtn').on('click', function(e) {	
 		
 		$.cookie("page", 2); 
-		$.cookie("mapclicked", true); 
+		$.cookie("mapclicked", 1); 
 		handlePages();		
 		showContacts();
 	});
@@ -198,7 +207,7 @@ $( document ).ready(function() {
 	$('#logoutBtn').on('click', function(e) {		
 		$.removeCookie("page"); 
 		$.removeCookie("admin");
-		$.removeCookie("mapclicked");
+		$.cookie("mapclicked", 0); 
 		handlePages();	
 	});
 	
