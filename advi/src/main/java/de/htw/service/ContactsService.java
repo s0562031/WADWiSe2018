@@ -39,7 +39,7 @@ public class ContactsService implements IContactsService{
 	 */
 	@Override
 	public void deleteContact(int contactId) {
-		String sql = "DELETE FROM users WHERE id = ?";
+		String sql = "DELETE FROM contacts WHERE id = ?";
 		RowMapper<Users> rowMapper = new BeanPropertyRowMapper<Users>(Users.class);
 		jdbcTemplate.queryForObject(sql, rowMapper, contactId);
 	}
@@ -60,7 +60,10 @@ public class ContactsService implements IContactsService{
 	 */
 	@Override
 	public List<Contacts> getAllContacts() {
-		return (List<Contacts>) repository.findAll();
+		String sql = "SELECT * FROM contacts ORDER BY id";
+		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
+		List<Contacts> contact = (List<Contacts>) jdbcTemplate.queryForObject(sql, rowMapper);
+		return contact;
 	} 
 	
 	/**
@@ -68,7 +71,7 @@ public class ContactsService implements IContactsService{
 	 */
 	@Override
 	public Contacts getContactById(int contactID) {
-		String sql = "SELECT * FROM users WHERE id = ?";
+		String sql = "SELECT * FROM contacts WHERE id = ?";
 		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
 		Contacts contact = jdbcTemplate.queryForObject(sql, rowMapper, contactID);
 		return contact;
