@@ -22,8 +22,7 @@ public class UserService implements IUserService {
 	public Users loginUser(int userId, String password) {
 		String sql = "SELECT * FROM users WHERE id = ? AND password = ?";
 		RowMapper<Users> rowMapper = new BeanPropertyRowMapper<Users>(Users.class);
-		Users user = jdbcTemplate.queryForObject(sql, rowMapper, userId, password);
-		return user;
+		return jdbcTemplate.queryForObject(sql, rowMapper, userId, password);
 	}
 	
 

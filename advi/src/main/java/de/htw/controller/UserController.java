@@ -39,7 +39,6 @@ public class UserController {
 	private ResponseEntity<String> login (@RequestParam int id, @RequestParam String password) throws JsonProcessingException {
 		
 		Users user = u_service.loginUser(id, password);
-		
 	    HttpHeaders responseHeaders = new HttpHeaders();
 	    
 	    if (user == null || !user.getPassword().equals(password)) {
@@ -59,10 +58,30 @@ public class UserController {
 	/**
 	 * calls addContact on ContactService
 	 * @param contact
+	 * @return addes Contact
+	 * @throws JsonProcessingException 
 	 */
 	@RequestMapping("/addContact")
-	private void addContact(Contacts contact) {
-		c_service.addContact(contact);
+	private ResponseEntity<String> addContact(Contacts contact) throws JsonProcessingException {
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		
+//		// check if id taken
+//		if(c_service.getContactById(contact.getId()) != null) {
+//			return new ResponseEntity<String>(responseHeaders, HttpStatus.NOT_FOUND); 
+//		}
+		
+		
+		Contacts validation_contact = c_service.addContact(contact);
+		
+		
+	    if (validation_contact == null) {
+	        return new ResponseEntity<String>("Adding failed", responseHeaders, HttpStatus.NOT_FOUND);
+	    } else {
+	        responseHeaders.add("Content-Type", "application/json");
+	        String json = convertToJson(validation_contact);
+	        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK); 
+	    }	
 	}
 	
 	
@@ -71,9 +90,18 @@ public class UserController {
 	 * @param id
 	 */
 	@RequestMapping("/deleteContact")
-	private void deleteContact(int id) {
+	private ResponseEntity<String> deleteContact(int id) {
+		
 		c_service.deleteContact(id);
+				
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    
+	    if (c_service.getContactById(id) == null) {
+	        return new ResponseEntity<String>(responseHeaders, HttpStatus.NO_CONTENT); 
+	    }
+	    else return new ResponseEntity<String>(responseHeaders, HttpStatus.NOT_FOUND); 
 	}
+
 	
 	/**
 	 * gets JSON from user if entity with that id can be found in DB
