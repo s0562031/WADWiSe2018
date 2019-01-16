@@ -64,10 +64,9 @@ div#helloMsg{
 	float:left;
 }
 
-#addBtn,
-#updateBtn,
-#deleteBtn{
-	display:none;
+#loginFailed{
+	font-weight:bold;
+	color:red;
 }
 
 /* content */

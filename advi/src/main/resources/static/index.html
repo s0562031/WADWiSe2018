@@ -30,6 +30,7 @@
 
 <div id="loginBox">
 	<div class="login">
+	<div id="loginFailed"></div>
 	<form action="" method="post" id="loginForm">
 		<label for="userid">userid</label>
 		<input type="text" id="userid" name="userid" required placeholder="userid" pattern="[0-9]+" /> 
@@ -46,7 +47,7 @@
 	    
 
 		<div class="a">
-			<div id="helloMsg"></div>
+			<div id="helloMsg">Hallo ... - Eingelogg als ...</div>
 			
 			<button id="addBtn" type="button">add</button>
 			<!-- <button id="updateBtn" type="button">update</button> -->
@@ -88,8 +89,8 @@
 				</select>
 				
 				<br class="clear" />
-				<input type="checkbox" name="private" value="true" style="float:left;margin:15px 10px 0 0"> 
-				<label style="float:left;">private</label>
+				<input type="checkbox" name="privat" value="true" style="float:left;margin:15px 10px 0 0"> 
+				<label style="float:left;">privat</label>
 				<br class="clear" />
 				
 				<button id="addFormBtn"> add </button> 								

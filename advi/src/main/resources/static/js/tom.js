@@ -98,6 +98,7 @@ function addMarker(layer, lon, lat, popupContentHTML) {
    
     layer.addMarker(marker);
     map.addPopup(feature.createPopup(feature.closeBox));
+   // popup.hide();
 }
 
 function openPopup(lon, lat){

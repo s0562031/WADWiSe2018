@@ -7,6 +7,18 @@ $( document ).ready(function() {
 	var windowHeight = $( window ).height();
 	var headerHeight = $('.a').height();
 	
+	// fix for page reload
+	if($.cookie("mapclicked")) {
+		showContacts();
+	}
+	
+	if($.cookie("admin") == 'false') {
+		 $('#addBtn').hide();
+	     $('#deleteBtn').hide();
+	}
+	
+	//console.log($.cookie("admin"));
+	
 	// set grid to window height
 	//$('.c').height(windowHeight);
 	//$('#map').height(windowHeight-headerHeight);
@@ -30,10 +42,10 @@ $( document ).ready(function() {
 			 var adm = "normalo";
 			 
 			 if(data.isAdmin){
-				 adm = "admin";
-				 $('#addBtn').show();
-				 //$('#updateBtn').show();
-				 $('#deleteBtn').show();
+				 adm = "admin";				 
+		 	 } else {
+		 		 $('#addBtn').hide();
+			     $('#deleteBtn').hide();
 		 	 }
 		 
 			 $('#helloMsg').text("Hallo " + data.firstname + " " + data.lastname + " - Eingeloggt als " + adm);			 
@@ -125,16 +137,21 @@ $( document ).ready(function() {
 	$('#showMapBtn').on('click', function(e) {	
 		
 		$.cookie("page", 2); 
-		handlePages();
+		$.cookie("mapclicked", true); 
+		handlePages();		
+		showContacts();
+	});
+	
+	function showContacts(){
 		
 		if($('#noUsers').is(':visible')){
-			if($.cookie("admin") {
+			if($.cookie("admin")) {
 				loadContacts();	
 			} else {
 				loadPublicContacts();
 			}
 		}
-	});
+	}
 	
 	function loadContacts(data) {
 		
@@ -181,6 +198,7 @@ $( document ).ready(function() {
 	$('#logoutBtn').on('click', function(e) {		
 		$.removeCookie("page"); 
 		$.removeCookie("admin");
+		$.removeCookie("mapclicked");
 		handlePages();	
 	});
 	
@@ -223,7 +241,8 @@ $( document ).ready(function() {
 		 			"&address=" + data.address + 
 		 			"&city=" + data.city + 
 		 			"&postcode=" + data.postcode + 
-		 			"&country=" + data.country
+		 			"&country=" + data.country + 
+		 			"&privat=" + data.privat
 		
 		 var jqxhr = $.post(url, function(usr) {
 			
@@ -288,7 +307,7 @@ $( document ).ready(function() {
 		
 		$("#noUsers").hide();
 		
-		console.log(user);
+		//console.log(user);
 		
 		$("ul#navi")
 			.append("<li>")
