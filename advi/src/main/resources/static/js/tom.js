@@ -79,7 +79,7 @@ function addMarker(layer, lon, lat, popupContentHTML) {
     feature.data.popupContentHTML = popupContentHTML;
     feature.data.overflow = "hidden";
     
-    console.log(feature);
+    //console.log(feature);
     
     var marker = new OpenLayers.Marker(ll);
     marker.feature = feature;
@@ -107,7 +107,7 @@ function openPopup(lon, lat){
 		var plon = popups[i]['lonlat']['lon'];
 		var plat = popups[i]['lonlat']['lat'];
 		
-		console.log(plon, plat);
+		//console.log(plon, plat);
 	}
 }
 

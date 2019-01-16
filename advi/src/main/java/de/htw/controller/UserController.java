@@ -158,7 +158,7 @@ public class UserController {
 	 * @param country
 	 */
 	@RequestMapping("/updateContact")
-	private void update (@RequestParam int id, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String address, @RequestParam String city, @RequestParam int postcode, @RequestParam String country) {
+	private void update (@RequestParam int id, @RequestParam String lastname, @RequestParam String firstname, @RequestParam String address, @RequestParam String city, @RequestParam int postcode, @RequestParam String country) {
 		Contacts contact = new Contacts(id,lastname,firstname,address, city, postcode, country);
 		c_service.updateContact(contact);
 	}

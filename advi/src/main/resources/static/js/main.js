@@ -59,7 +59,7 @@ $( document ).ready(function() {
 		
 		$('form #firstname').val("");
 		$('form #lastname').val("");
-		$('form #street').val("");
+		$('form #address').val("");
 		$('form #city').val("");
 		$('form #postcode').val("");
 	});
@@ -162,7 +162,6 @@ $( document ).ready(function() {
 		e.preventDefault(); // do not submit form	
 		
 		var data = {}		
-		data['id'] = localStorage.length;
 		
 		$(this).children().each(function(i,k) {
 			
@@ -187,16 +186,25 @@ $( document ).ready(function() {
 	
 	function saveData(data) {
 		
-		 console.log(data);
+		 //console.log(data);
+		 
+		 var url = "/addContact?lastname=" + data.lastname + 
+		 			"&firstname=" + data.firstname + 
+		 			"&address=" + data.address + 
+		 			"&city=" + data.city + 
+		 			"&postcode=" + data.postcode + 
+		 			"&country=" + data.country
 		
-		 var jqxhr = $.get( "/addContact", function(data) {
+		 var jqxhr = $.post(url, function(usr) {
 			
 			 // Kontakt hinzufügen per post *****
 			 
 			 $.cookie("page", 2); 
 			 handlePages();
-				
-			 getLatLong(data);
+			 
+			 console.log("KK", usr);
+			
+			 getLatLong(usr);
 					
 		 })
 	     .fail(function() {
@@ -222,12 +230,12 @@ $( document ).ready(function() {
 		
 	function getLatLong(user) {
 		
-		var street = user.address;
+		var address = user.address;
 		var city = user.city;
 		var postcode = user.postcode;
-		var address = city + "+" + street;
+		var os_address = city + "+" + address;
 				
-		var url= "https://nominatim.openstreetmap.org/search?q=" + address + "&format=json&limit=1";
+		var url= "https://nominatim.openstreetmap.org/search?q=" + os_address + "&format=json&limit=1";
 		
 		$.get( url, function(data) {
 			
@@ -254,6 +262,8 @@ $( document ).ready(function() {
 		
 		$("#noUsers").hide();
 		
+		console.log(user);
+		
 		$("ul#navi")
 			.append("<li>")
 			.children("li")
@@ -261,20 +271,20 @@ $( document ).ready(function() {
 			.text(user.firstname)
 			.attr("id",user.id)
 			.bind("click", function() {
-				openPopup(user.lon, user.lat);
+				//openPopup(user.lon, user.lat);
 			});		
 	}
 	
 	function addNewMarker(user) {
 		
-		var address = "<b>" + user.firstname + " " + 
+		var adr = "<b>" + user.firstname + " " + 
 					user.lastname + "</b><br />" + 
-					user.street + "<br />" + 
+					user.address + "<br />" + 
 					user.postcode + " " + 
 					user.city + "<br />" + 
 					user.country;
 		
-		newMarker(user.lon, user.lat, address);
+		newMarker(user.lon, user.lat, adr);
 	}
 	
 	function handlePages(){

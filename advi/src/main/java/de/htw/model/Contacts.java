@@ -23,7 +23,7 @@ public class Contacts {
     public Contacts() {}
 	
 	
-	public Contacts(int id, String firstname, String lastname, String address, String city, int postcode,
+	public Contacts(int id, String lastname, String firstname, String address, String city, int postcode,
 			String country) {
 		super();
 		this.id = id;

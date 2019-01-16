@@ -27,7 +27,7 @@ public class ContactsService implements IContactsService{
 	@Override
 	public Contacts addContact(Contacts contact) {
 		String sql = "INSERT INTO contacts (lastname, firstname, address, city, postcode, country) VALUES (?, ?, ? ,? ,?,?)";
-		jdbcTemplate.update(sql,contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry());
+		jdbcTemplate.update( sql, contact.getLastname(), contact.getFirstname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry());
 		
 		String sqlget = "SELECT * FROM contacts WHERE id=(SELECT max(id) FROM contacts)";
 		RowMapper<Contacts> rowMapper = new BeanPropertyRowMapper<Contacts>(Contacts.class);
@@ -50,8 +50,8 @@ public class ContactsService implements IContactsService{
 	 */
 	@Override
 	public void updateContact(Contacts contact) {
-		String sql = "UPDATE contacts SET firstname=?, lastname=?, address=?, city=?, postcode=?, country=? WHERE id = ?";
-		jdbcTemplate.update(sql, contact.getFirstname(), contact.getLastname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry(), contact.getId());
+		String sql = "UPDATE contacts SET  lastname=?, firstname=?, address=?, city=?, postcode=?, country=? WHERE id = ?";
+		jdbcTemplate.update(sql, contact.getLastname(), contact.getFirstname(), contact.getAddress(), contact.getCity(), contact.getPostcode(), contact.getCountry(), contact.getId());
 	}
 	
 	/**
