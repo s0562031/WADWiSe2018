@@ -22,7 +22,9 @@ $( document ).ready(function() {
 		 // ajax request to check user password will be here
 		 var jqxhr = $.get( "/login?id=" + id + "&password=" + pass, function(data) {
 			 
-			 $.cookie("page", 2); 		 
+			 $.cookie("page", 2); 			 
+			 $.cookie("admin", data.isAdmin);
+			 
 			 handlePages();	
 			 
 			 var adm = "normalo";
@@ -38,8 +40,8 @@ $( document ).ready(function() {
 			 
 		 })
 	     .fail(function() {
-			   alert( "Kein User mit diesen Daten vorhanden!" );
-			 })	 
+			   $("#loginFailed").text("UserId oder Passwort nicht korrekt!");
+		 })	 
 	});
 	
 	// click on persons navigation
@@ -108,7 +110,7 @@ $( document ).ready(function() {
 	
 	function deleteUser(id){
 		
-		 var jqxhr = $.get( "/deleteUser", function(data) {
+		 var jqxhr = $.get( "/deleteContact?id=" + id, function(data) {
 			 $("li#" + id).remove();
 		 })
 	     .fail(function() {
@@ -117,13 +119,17 @@ $( document ).ready(function() {
 	}
 	
 	// click on map button
-	$('#showMapBtn').on('click', function(e) {		
+	$('#showMapBtn').on('click', function(e) {	
 		
 		$.cookie("page", 2); 
 		handlePages();
 		
 		if($('#noUsers').is(':visible')){
-			loadContacts();	
+			if($.cookie("admin") {
+				loadContacts();	
+			} else {
+				loadPublicContacts();
+			}
 		}
 	});
 	
@@ -147,10 +153,31 @@ $( document ).ready(function() {
 		 })	 
 	}
 	
+	function loadPublicContacts(data) {
+		
+		var jqxhr = $.get( "/getAllPublicContacts", function(data) {
+			 
+			$("#noUsers").hide();
+			
+			$.each(data, function(k, user) {
+				
+				getLatLong(user);
+								
+				/*if($('#OpenLayers_Map_5_OpenLayers_ViewPort').length != 0){
+					addNewMarker(user);
+				}*/
+			});			
+		 })
+	     .fail(function() {
+			   alert( "Keine Kontakte vorhanden!" );	   
+		 })	 
+	}
+	
 	
 	// click on logout button
 	$('#logoutBtn').on('click', function(e) {		
 		$.removeCookie("page"); 
+		$.removeCookie("admin");
 		handlePages();	
 	});
 	
@@ -197,13 +224,9 @@ $( document ).ready(function() {
 		
 		 var jqxhr = $.post(url, function(usr) {
 			
-			 // Kontakt hinzufügen per post *****
-			 
 			 $.cookie("page", 2); 
 			 handlePages();
 			 
-			 console.log("KK", usr);
-			
 			 getLatLong(usr);
 					
 		 })
