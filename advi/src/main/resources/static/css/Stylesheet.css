@@ -1,0 +1,187 @@
+body {
+	font-family: "Open Sans", normal;
+	font-size: 12em;
+	background-color: #dae3ec;
+	color:#000;
+	overflow: hidden;
+	width:100%;
+	height:100%;
+}
+
+p {
+	margin: 0;
+}
+
+form {
+	font-family: "Open Sans", Sans, light;
+	line-height: 1.5;
+	color:#000;
+}
+
+button{
+	display:block;
+	background:#2e3e4e;
+	color:#fff;
+	border:1px solid #2e3e4e;
+	padding:9px 30px;
+	margin-top:30px;
+	width:318px;
+	border-radius:5px;
+	font-weight:bold;
+}
+
+button:hover{
+	background-color:#48596a;
+}
+
+
+/* grid layout, 3 columns */
+
+.wrapper {
+	display: grid; 
+	grid-template-columns: 1fr 4fr; 
+	/*grid-template-row: 1fr 2fr;*/
+	/*grid-auto-rows:minmax(400px, auto);*/
+ }
+ 
+/* header */
+.a {
+	background-color: #90a3b7;
+	grid-column: 2 / span 4;
+	grid-row: 1 / span 1;
+}
+
+div#helloMsg{
+	padding:10px 30px 0 30px;
+	font-weight:bold;
+	font-size:15px;
+	color:#fff;
+}
+
+.a button{
+	width:auto;
+	margin:20px 0 20px 30px;
+	float:left;
+}
+
+#addBtn,
+#updateBtn,
+#deleteBtn{
+	display:none;
+}
+
+/* content */
+.b {
+	background-color: #f0f0f0;
+	grid-auto-rows:400px;
+	overflow-y: scroll;
+	min-height: 400px;
+	grid-column: 2 / span 4;
+}
+
+/* sidebar */
+.c {
+	background-color: #2e3e4e;
+	grid-column: 1 / span 1;
+	grid-row: 1 /span 2;
+}
+
+.c h2{
+	display:block;
+	font-width:bold;
+	color:#fff;
+	padding:10px 20px;
+}
+
+.c ul{
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}
+.c ul li{
+	padding:7px 20px;	
+	color:#fff;
+	position:relative;
+}
+
+.c ul li:hover,
+.c ul li.active{
+	background:#48596a;
+	cursor:pointer;
+}
+
+.c ul li a {
+	position:absolute;
+	top:10px;
+}
+
+.c ul li a.update {
+	right:40px;
+}
+
+.c ul li a.delete {
+	right:20px;
+}
+
+.c p {
+	margin:20px;
+	color:#fff;
+}
+
+#loginBox{
+	display:block;	
+	width:400px;
+	height:300px;
+	margin: 10% auto;
+}
+
+.login{
+	padding:40px;
+	background:#90a3b7;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+label{
+	display:block;
+	margin-top:5px;
+}
+
+input[type=text],
+input[type=password],
+input[type=email] {
+	width:300px;
+	height:28px;
+}
+
+input[type=checkbox]{
+	
+}
+
+select {
+	width:315px;
+	height:40px;
+}
+
+#mapBox,
+#formMsg,
+#addFormBtn,
+#updateFormBtn {
+	display:none;
+}
+
+#formBox,
+#formBoxTmp,
+#deleteBox{
+	display:none;
+	padding:20px 30px;
+}
+
+.clear{
+	clear:both;
+	line-height:1;
+	height:1px;
+	overflow:hidden;
+}
+
+
+

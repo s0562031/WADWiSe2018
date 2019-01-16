@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Home page</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+    
+    <div id="login">
+		<form action="login"> 
+			<label for="id"><b>UserId</b></label> 
+			<input type="text" placeholder="Enter UserId" name="id" required> 
+		<br/><label for="password"><b>Password</b></label> 
+		    <input type="password" placeholder="Enter Password" name="password" required>
+		<br/><button type="submit" name="login" >Login</button>
+		</form>
+	</div>
+	
+    <div id="add">
+	<form action="updateContact"> 
+		<label for="id"><b>UserId</b></label> 
+		<input type="text" placeholder="Enter ContactId" name="id" required> 
+		
+		<br/><label for="lastname"><b>lastname</b></label> 
+	    <input type="text" placeholder="lastname" name="lastname" required>
+	
+		<br/><label for="firstname"><b>firstname</b></label> 
+	    <input type="text" placeholder="firstname" name="firstname" required>
+	
+		<br/><label for="address"><b>address</b></label> 
+	    <input type="text" placeholder="address" name="address" required>
+	
+		<br/><label for="city"><b>city</b></label> 
+	    <input type="text" placeholder="city" name="city" required>
+	
+		<br/><label for="postcode"><b>postcode</b></label> 
+	    <input type="number" placeholder="postcode" name="postcode" required>
+	
+		<br/><label for="country"><b>country</b></label> 
+	    <input type="text" placeholder="country" name="country" required>
+	
+	
+	<br/><button type="submit" name="updateContact" >add</button>
+		
+		</form>
+	</div>
+	<form action="getAllContacts">
+	<br/><button action="getAllContacts" name="getAllContacts" >getAll</button>
+    </form>
+        
+        <h2>List of users</h2>
+
+        <table>
+            <tr>
+                <th>id</th>
+                <th>firstname</th>
+                <th>lastname</th>
+            </tr>
+            
+            <tr th:each="user : ${user}">
+                <td th:text="${user.id}">Id</td>
+                <td th:text="${user.firstname}">firstname</td>
+                <td th:text="${user.lastname}">lastname</td>
+            </tr>
+        </table>
+    
+    
+    </body>
+</html>
