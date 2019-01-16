@@ -44,12 +44,12 @@ function newMarker(lon, lat, popuptext) {
             map.getProjectionObject() // to Spherical Mercator Projection
           );
           
-    var zoom=10;
+    var zoom=8;
     var markers = new OpenLayers.Layer.Markers( "Markers" );    
     
     // dynamisch
     addMarker(layer_markers, Number(lon), Number(lat), popuptext);
-   // map.setCenter (lonLat, zoom);
+    map.setCenter (lonLat);
 }
 
 function jumpTo(lon, lat, zoom) {
@@ -127,11 +127,36 @@ function openPopup(id, lon, lat, adr){
         }	  
 }
 
+function clearMarker(lon, lat){
+	
+	var lon = Lon2Merc(Number(lon));
+	var lat = Lat2Merc(Number(lat));
+	
+	lon = Math.round(lon * 10000000) / 10000000;
+	lat = Math.round(lat * 10000000) / 10000000;
+	
+	var allpopups = map.popups;
+	for(var a = 0; a < allpopups.length; a++){
+		if(lon == allpopups[a]['lonlat']['lon'] && lat == allpopups[a]['lonlat']['lat']) {
+			allpopups[a].destroy();
+		}
+	};
+	
+	var allmarkers = layer_markers.markers;
+	for(var a = 0; a < allmarkers.length; a++){
+		
+		if(lon == allmarkers[a]['lonlat']['lon'] && lat == allmarkers[a]['lonlat']['lat']) {
+			layer_markers.removeMarker(layer_markers.markers[a]);
+		}		
+	};	
+}
+
+
 function reloadMap(){
 	layer_markers.clearMarkers();
 	var pops = map.popups;
 	for(var a = 0; a < pops.length; a++){
-	   map.popups[a].hide();
+	   pops[a].hide();
 	};
 }
 

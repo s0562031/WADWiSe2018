@@ -122,12 +122,15 @@ $( document ).ready(function() {
 	$('#deleteBtn').on('click', function(e) {		
 		
 		var id = $("ul#navi li.active").attr("id");
+		var lon = $("ul#navi li.active").attr("lon");
+		var lat = $("ul#navi li.active").attr("lat");
 		var name = $("ul#navi li.active").text();
 		
 		if(id != undefined) {
 			
 			if (confirm("User " + name + " löschen?")) {
 				  deleteUser(id);
+				  clearMarker(lon, lat);
 			} 
 			
 		} else {
@@ -154,18 +157,19 @@ $( document ).ready(function() {
 		
 		$.cookie("page", 2); 
 		$.cookie("mapclicked", 1); 
-		handlePages();		
+		handlePages();	
+		reloadMap(); // delete markers and hide popups
 		showContacts();
 	});
 	
 	function showContacts(){
 		
-		if($('#noUsers').is(':visible')){
-			if($.cookie("admin") == 'true') {
-				loadContacts();	
-			} else {
-				loadPublicContacts();
-			}
+		$('ul#navi li').remove();
+		
+		if($.cookie("admin") == 'true') {
+			loadContacts();	
+		} else {
+			loadPublicContacts();
 		}
 	}
 	
@@ -178,10 +182,6 @@ $( document ).ready(function() {
 			$.each(data, function(k, user) {
 				
 				getLatLong(user);
-								
-				/*if($('#OpenLayers_Map_5_OpenLayers_ViewPort').length != 0){
-					addNewMarker(user);
-				}*/
 			});			
 		 })
 	     .fail(function() {
@@ -198,10 +198,6 @@ $( document ).ready(function() {
 			$.each(data, function(k, user) {
 				
 				getLatLong(user);
-								
-				/*if($('#OpenLayers_Map_5_OpenLayers_ViewPort').length != 0){
-					addNewMarker(user);
-				}*/
 			});			
 		 })
 	     .fail(function() {
@@ -297,7 +293,7 @@ $( document ).ready(function() {
 		var address = user.address;
 		var city = user.city;
 		var postcode = user.postcode;
-		var os_address = city + "+" + address;
+		var os_address = postcode + "+" + city + "+" + address;
 				
 		var url= "https://nominatim.openstreetmap.org/search?q=" + os_address + "&format=json&limit=1";
 		
@@ -339,6 +335,8 @@ $( document ).ready(function() {
 			.last()
 			.text(user.firstname)
 			.attr("id",user.id)
+			.attr("lon",user.lon)
+			.attr("lat",user.lat)
 			.bind("click", function() {
 				openPopup(user.id, user.lon, user.lat, adr);
 			});		
@@ -363,6 +361,7 @@ $( document ).ready(function() {
 			case '1': 
 				$('#loginBox').show();
 				$('#mapBox').hide();
+				$('#loginFailed').empty();
 				break;
 			case '2': 
 				$('#loginBox').hide();
@@ -398,6 +397,7 @@ $( document ).ready(function() {
 				$.cookie('page', 1); 
 				$('#loginBox').show();
 				$('#mapBox').hide();
+				$('#loginFailed').empty();
 		}
 		
 		//console.log($.cookie('page'));
