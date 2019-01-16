@@ -145,7 +145,7 @@ $( document ).ready(function() {
 	function showContacts(){
 		
 		if($('#noUsers').is(':visible')){
-			if($.cookie("admin")) {
+			if($.cookie("admin") == 'true') {
 				loadContacts();	
 			} else {
 				loadPublicContacts();
